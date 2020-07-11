@@ -1,0 +1,42 @@
+{
+    "name": "jack-walter-smith/bepaid-laravel",
+    "description": "A wrapper of https://github.com/begateway/begateway-api-php for Laravel",
+    "type": "library",
+    "require": {
+        "begateway/begateway-api-php": "dev-master"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikita Kim",
+            "email": "n.a.kim@yandex.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "JackWalterSmith\\BePaidLaravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JackWalterSmith\\BePaidLaravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JackWalterSmith\\BePaidLaravel\\Providers\\BePaidServiceProvider"
+            ],
+            "aliases": {
+                "BePaid": "JackWalterSmith\\BePaidLaravel\\Facades\\BePaid"
+            },
+            "branch-alias": {
+                "dev-master": "1.x"
+            }
+        }
+    }
+}
