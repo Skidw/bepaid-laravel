@@ -12,11 +12,10 @@
  * file that was distributed with this source code.
  */
 
+namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-namespace JackWalterSmith\BePaidLaravel\ValueObjects;
-
-
-class CustomerVo
+class CardTokenDto
 {
-
+    /** @var \JackWalterSmith\BePaidLaravel\Types\CardType */
+    public $card;
 }

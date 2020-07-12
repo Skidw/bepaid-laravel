@@ -17,8 +17,11 @@ namespace JackWalterSmith\BePaidLaravel;
 
 
 use BeGateway\AuthorizationOperation;
+use BeGateway\Response;
+use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\AuthorizationDto;
 
-class Authorization
+class Authorization implements IGateway
 {
     /** @var \BeGateway\AuthorizationOperation */
     public $transaction;
@@ -26,5 +29,20 @@ class Authorization
     public function __construct(AuthorizationOperation $transaction)
     {
         $this->transaction = $transaction;
+    }
+
+    /**
+     * @param AuthorizationDto $data
+     *
+     * @return \BeGateway\Response
+     */
+    public function purchase($data): Response
+    {
+        // TODO: Implement purchase() method.
+    }
+
+    public function fill($data): IGateway
+    {
+        // TODO: Implement fill() method.
     }
 }

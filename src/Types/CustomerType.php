@@ -13,10 +13,20 @@
  */
 
 
-namespace JackWalterSmith\BePaidLaravel\ValueObjects;
+namespace JackWalterSmith\BePaidLaravel\Types;
 
 
-class OrderVo
+class CustomerType
 {
-
+    public $ip;
+    public $email;
+    public $firstName;
+    public $lastName;
+    public $address;
+    public $city;
+    public $country;
+    public $state;
+    public $zip;
+    public $phone;
+    public $birthDate = NULL;
 }

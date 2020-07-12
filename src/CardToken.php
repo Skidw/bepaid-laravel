@@ -17,8 +17,11 @@ namespace JackWalterSmith\BePaidLaravel;
 
 
 use BeGateway\CardToken as BePaidCardToken;
+use BeGateway\Response;
+use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\CardTokenDto;
 
-class CardToken
+class CardToken implements IGateway
 {
     /** @var \BeGateway\CardToken */
     public $token;
@@ -26,5 +29,20 @@ class CardToken
     public function __construct(BePaidCardToken $token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * @param CardTokenDto $data
+     *
+     * @return \BeGateway\Response
+     */
+    public function purchase($data): Response
+    {
+        // TODO: Implement purchase() method.
+    }
+
+    public function fill($data): IGateway
+    {
+        // TODO: Implement fill() method.
     }
 }

@@ -17,8 +17,10 @@ namespace JackWalterSmith\BePaidLaravel;
 
 
 use BeGateway\Product as BePaidProduct;
+use BeGateway\Response;
+use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 
-class Product
+class Product implements IGateway
 {
     /** @var \BeGateway\Product */
     public $transaction;
@@ -26,5 +28,20 @@ class Product
     public function __construct(BePaidProduct $transaction)
     {
         $this->transaction = $transaction;
+    }
+
+    /**
+     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
+     *
+     * @return \BeGateway\Response
+     */
+    public function purchase($data): Response
+    {
+        // TODO: Implement purchase() method.
+    }
+
+    public function fill($data): IGateway
+    {
+        // TODO: Implement fill() method.
     }
 }

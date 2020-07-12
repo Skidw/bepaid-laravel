@@ -18,7 +18,7 @@ namespace JackWalterSmith\BePaidLaravel\Enums;
 
 use MyCLabs\Enum\Enum;
 
-class LanguageCodes extends Enum
+class LanguageEnum extends Enum
 {
     private const EN = 'en';
     private const ES = 'es';

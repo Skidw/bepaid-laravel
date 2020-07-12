@@ -26,13 +26,23 @@ use BeGateway\{AuthorizationOperation,
 };
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use JackWalterSmith\BePaidLaravel\{Authorization, CardToken, Payment, PaymentToken, Product, Query};
+use JackWalterSmith\BePaidLaravel\{Authorization,
+    CardToken,
+    Enums\CurrencyEnum,
+    Payment,
+    PaymentToken,
+    Product,
+    Query};
+use Illuminate\Support\Str;
 
 class BePaidServiceProvider extends ServiceProvider
 {
     private const CONFIG_PATH = __DIR__ . '/../../config/bepaid.php';
     private const ROUTES_PATH = __DIR__ . '/../../routes/bepaid.php';
 
+    /**
+     * {@inheritDoc}
+     */
     public function register()
     {
         $this->mergeConfigFrom(self::CONFIG_PATH, 'bepaid');
@@ -47,6 +57,9 @@ class BePaidServiceProvider extends ServiceProvider
         $this->bindQuery();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function boot(): void
     {
         $this->bootConfig();
@@ -90,13 +103,18 @@ class BePaidServiceProvider extends ServiceProvider
             $transaction = new GetPaymentToken();
 
             $transaction->setTestMode($config['testing_mode']);
-            $transaction->money->setCurrency($config['currency']);
-            $transaction->setLanguage($config['language']);
+            $transaction->money->setCurrency($this->getCurrency($config));
+            $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
             $transaction->setSuccessUrl(route($config['urls']['success']['name'], [], true));
             $transaction->setDeclineUrl(route($config['urls']['decline']['name'], [], true));
             $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
             $transaction->setCancelUrl(route($config['urls']['cancel']['name'], [], true));
+            $transaction->setAttempts($config['attempts']);
+            $transaction->setExpiryDate(now()->addMinutes($config['expired_at'])->toIso8601String());
+
+            $this->setSpecialProperties($config['visible'], 'visible', $transaction);
+            $this->setSpecialProperties($config['read_only'], 'readonly', $transaction);
 
             return new PaymentToken($transaction);
         });
@@ -112,8 +130,8 @@ class BePaidServiceProvider extends ServiceProvider
             $transaction = new PaymentOperation();
 
             $transaction->setTestMode($config['testing_mode']);
-            $transaction->money->setCurrency($config['currency']);
-            $transaction->setLanguage($config['language']);
+            $transaction->money->setCurrency($this->getCurrency($config));
+            $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
 
             return new Payment($transaction);
@@ -130,9 +148,10 @@ class BePaidServiceProvider extends ServiceProvider
             $transaction = new AuthorizationOperation();
 
             $transaction->setTestMode($config['testing_mode']);
-            $transaction->money->setCurrency($config['currency']);
-            $transaction->setLanguage($config['language']);
+            $transaction->money->setCurrency($this->getCurrency($config));
+            $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $transaction->setReturnUrl(route($config['urls']['return']['name'], [], true));
 
             return new Authorization($transaction);
         });
@@ -152,10 +171,20 @@ class BePaidServiceProvider extends ServiceProvider
     private function bindProduct(): void
     {
         $this->app->bind(Product::class, function (Application $app) {
+            $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
+
             $transaction = new BePaidProduct;
 
-            $currency = $app['config']->get('bepaid.currency');
-            $transaction->money->setCurrency($currency);
+            $transaction->setTestMode($config['testing_mode']);
+            $transaction->money->setCurrency($this->getCurrency($config));
+            $transaction->setLanguage($this->getLanguage($config));
+            $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $transaction->setSuccessUrl(route($config['urls']['success']['name'], [], true));
+            $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
+            $transaction->setReturnUrl(route($config['urls']['return']['name'], [], true));
+            $transaction->setExpiryDate(now()->addMinutes($config['expired_at'])->toIso8601String());
+
+            $this->setSpecialProperties($config['visible'], 'visible', $transaction);
 
             return new Product($transaction);
         });
@@ -174,5 +203,40 @@ class BePaidServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Query::class, 'bepaid.query');
+    }
+
+    private function getCurrency(?array $conf = null): string
+    {
+        $config = $conf || config('bepaid') || require self::CONFIG_PATH;
+
+        $formattedCurrency = strtoupper($config['currency']);
+        $fallbackFormattedCurrency = strtoupper($config['fallback_currency']);
+
+        return CurrencyEnum::isValid($formattedCurrency) ? $formattedCurrency : $fallbackFormattedCurrency;
+    }
+
+    private function getLanguage(?array $conf = null): string
+    {
+        $config = $conf || config('bepaid') || require self::CONFIG_PATH;
+
+        $formattedLanguage = strtoupper($config['lang']);
+        $fallbackFormattedLanguage = strtoupper($config['fallback_lang']);
+
+        return CurrencyEnum::isValid($formattedLanguage) ? $formattedLanguage : $fallbackFormattedLanguage;
+    }
+
+    /**
+     * Set visible and readonly properties.
+     *
+     * @param array $properties
+     * @param       $trx
+     */
+    private function setSpecialProperties(array $properties, $key, $trx): void {
+        foreach ($properties as $prop) {
+            $method = "set{$prop}{$key}";
+            if (method_exists($trx, $method)) {
+                $trx->{$method}();
+            }
+        }
     }
 }

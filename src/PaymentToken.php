@@ -12,13 +12,13 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
+use BeGateway\{GetPaymentToken, Response};
+use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\PaymentTokenDto;
 
-use BeGateway\GetPaymentToken;
-
-class PaymentToken
+class PaymentToken implements IGateway
 {
     /** @var \BeGateway\GetPaymentToken */
     public $transaction;
@@ -26,5 +26,22 @@ class PaymentToken
     public function __construct(GetPaymentToken $transaction)
     {
         $this->transaction = $transaction;
+    }
+
+    /**
+     * @param PaymentTokenDto $data
+     *
+     * @return \BeGateway\Response
+     */
+    public function purchase($data): Response
+    {
+        if (!empty($data)) $this->fill($data);
+
+        return $this->transaction->submit();
+    }
+
+    public function fill($data): IGateway
+    {
+
     }
 }

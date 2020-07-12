@@ -12,15 +12,10 @@
  * file that was distributed with this source code.
  */
 
+namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-namespace JackWalterSmith\BePaidLaravel\Enums;
-
-use MyCLabs\Enum\Enum;
-
-class CurrencyCodes extends Enum
+class QueryDto
 {
-    private const BYN = 'BYN';
-    private const RUB = 'RUB';
-    private const USD = 'USD';
-    private const EUR = 'EUR';
+    /** @var string */
+    public $token;
 }
