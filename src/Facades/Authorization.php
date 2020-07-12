@@ -12,16 +12,14 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-
-class Payment extends Facade
+class Authorization extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'bepaid.payment';
+        return 'bepaid.authorization';
     }
 }

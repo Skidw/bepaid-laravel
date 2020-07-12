@@ -12,9 +12,7 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel\Providers;
-
 
 use BeGateway\{AuthorizationOperation,
     CardToken as BePaidCardToken,
@@ -29,7 +27,6 @@ use BeGateway\{AuthorizationOperation,
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JackWalterSmith\BePaidLaravel\{Authorization, CardToken, Payment, PaymentToken, Product, Query};
-use JackWalterSmith\BePaidLaravel\Facades\PaymentToken as PaymentTokenFacade;
 
 class BePaidServiceProvider extends ServiceProvider
 {
@@ -40,15 +37,14 @@ class BePaidServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(self::CONFIG_PATH, 'bepaid');
 
-        $config = config('bepaid') ?? require self::CONFIG_PATH;
-
-        $this->setUp($config);
+        $this->setUp();
 
         $this->bindPaymentToken();
         $this->bindPayment();
         $this->bindAuthorization();
         $this->bindCardToken();
         $this->bindProduct();
+        $this->bindQuery();
     }
 
     public function boot(): void
@@ -75,8 +71,10 @@ class BePaidServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(self::ROUTES_PATH);
     }
 
-    private function setUp(array $config): void
+    private function setUp(): void
     {
+        $config = config('bepaid') ?? require self::CONFIG_PATH;
+
         Settings::$shopId = $config['shop_id'];
         Settings::$shopKey = $config['shop_key'];
         Settings::$gatewayBase = $config['gateway_base_url'];
@@ -103,7 +101,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new PaymentToken($transaction);
         });
 
-        $this->app->alias(PaymentToken::class, PaymentTokenFacade::class);
+        $this->app->alias(PaymentToken::class, 'bepaid.paymentToken');
     }
 
     private function bindPayment(): void
@@ -121,7 +119,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new Payment($transaction);
         });
 
-        // TODO: add facade
+        $this->app->alias(Payment::class, 'bepaid.payment');
     }
 
     private function bindAuthorization(): void
@@ -139,7 +137,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new Authorization($transaction);
         });
 
-        // TODO: add facade
+        $this->app->alias(Authorization::class, 'bepaid.authorization');
     }
 
     private function bindCardToken(): void
@@ -148,7 +146,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new BePaidCardToken();
         });
 
-        // TODO: add facade
+        $this->app->alias(CardToken::class, 'bepaid.cardToken');
     }
 
     private function bindProduct(): void
@@ -162,7 +160,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new Product($transaction);
         });
 
-        // TODO: add facade
+        $this->app->alias(Product::class, 'bepaid.product');
     }
 
     private function bindQuery(): void
@@ -175,6 +173,6 @@ class BePaidServiceProvider extends ServiceProvider
             return new Query($queryByPaymentToken, $queryByTrackingId, $queryByUuid);
         });
 
-        // TODO: add facade
+        $this->app->alias(Query::class, 'bepaid.query');
     }
 }

@@ -35,8 +35,12 @@
                 "JackWalterSmith\\BePaidLaravel\\Providers\\BePaidServiceProvider"
             ],
             "aliases": {
+                "Authorization": "JackWalterSmith\\BePaidLaravel\\Facades\\Authorization",
+                "CardToken": "JackWalterSmith\\BePaidLaravel\\Facades\\CardToken",
                 "Payment": "JackWalterSmith\\BePaidLaravel\\Facades\\Payment",
-                "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken"
+                "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken",
+                "Product": "JackWalterSmith\\BePaidLaravel\\Facades\\Product",
+                "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query"
             },
             "branch-alias": {
                 "dev-master": "1.x"
