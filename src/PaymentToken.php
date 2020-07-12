@@ -21,10 +21,10 @@ use BeGateway\GetPaymentToken;
 class PaymentToken
 {
     /** @var \BeGateway\GetPaymentToken */
-    public $gateway;
+    public $transaction;
 
-    public function __construct(GetPaymentToken $gateway)
+    public function __construct(GetPaymentToken $transaction)
     {
-        $this->gateway = $gateway;
+        $this->transaction = $transaction;
     }
 }

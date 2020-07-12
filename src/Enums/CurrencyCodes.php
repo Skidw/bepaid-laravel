@@ -13,12 +13,14 @@
  */
 
 
-namespace JackWalterSmith\BePaidLaravel\Facades;
+namespace JackWalterSmith\BePaidLaravel\Enums;
 
+use MyCLabs\Enum\Enum;
 
-use Illuminate\Support\Facades\Facade;
-
-class PaymentToken extends Facade
+class CurrencyCodes extends Enum
 {
-
+    private const BYN = 'BYN';
+    private const RUB = 'RUB';
+    private const USD = 'USD';
+    private const EUR = 'EUR';
 }

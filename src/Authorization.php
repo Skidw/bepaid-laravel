@@ -13,12 +13,18 @@
  */
 
 
-namespace JackWalterSmith\BePaidLaravel\Facades;
+namespace JackWalterSmith\BePaidLaravel;
 
 
-use Illuminate\Support\Facades\Facade;
+use BeGateway\AuthorizationOperation;
 
-class PaymentToken extends Facade
+class Authorization
 {
+    /** @var \BeGateway\AuthorizationOperation */
+    public $transaction;
 
+    public function __construct(AuthorizationOperation $transaction)
+    {
+        $this->transaction = $transaction;
+    }
 }

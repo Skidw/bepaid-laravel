@@ -13,12 +13,18 @@
  */
 
 
-namespace JackWalterSmith\BePaidLaravel\Facades;
+namespace JackWalterSmith\BePaidLaravel;
 
 
-use Illuminate\Support\Facades\Facade;
+use BeGateway\CardToken as BePaidCardToken;
 
-class PaymentToken extends Facade
+class CardToken
 {
+    /** @var \BeGateway\CardToken */
+    public $token;
 
+    public function __construct(BePaidCardToken $token)
+    {
+        $this->token = $token;
+    }
 }

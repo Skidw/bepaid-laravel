@@ -13,12 +13,18 @@
  */
 
 
-namespace JackWalterSmith\BePaidLaravel\Facades;
+namespace JackWalterSmith\BePaidLaravel;
 
 
-use Illuminate\Support\Facades\Facade;
+use BeGateway\Product as BePaidProduct;
 
-class PaymentToken extends Facade
+class Product
 {
+    /** @var \BeGateway\Product */
+    public $transaction;
 
+    public function __construct(BePaidProduct $transaction)
+    {
+        $this->transaction = $transaction;
+    }
 }

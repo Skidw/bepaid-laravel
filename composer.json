@@ -3,7 +3,10 @@
     "description": "A wrapper of https://github.com/begateway/begateway-api-php for Laravel",
     "type": "library",
     "require": {
-        "begateway/begateway-api-php": "dev-master"
+        "php": ">=7.1.*",
+        "laravel/framework": ">=5.6.*",
+        "begateway/begateway-api-php": "dev-master",
+        "myclabs/php-enum": "dev-master"
     },
     "require-dev": {
         "orchestra/testbench": "^5.2"
@@ -32,7 +35,8 @@
                 "JackWalterSmith\\BePaidLaravel\\Providers\\BePaidServiceProvider"
             ],
             "aliases": {
-                "BePaid": "JackWalterSmith\\BePaidLaravel\\Facades\\BePaid"
+                "Payment": "JackWalterSmith\\BePaidLaravel\\Facades\\Payment",
+                "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken"
             },
             "branch-alias": {
                 "dev-master": "1.x"

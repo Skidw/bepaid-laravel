@@ -16,7 +16,15 @@
 namespace JackWalterSmith\BePaidLaravel;
 
 
+use BeGateway\PaymentOperation;
+
 class Payment
 {
-    private $payment;
+    /** @var \BeGateway\PaymentOperation */
+    public $transaction;
+
+    public function __construct(PaymentOperation $transaction)
+    {
+        $this->transaction = $transaction;
+    }
 }
