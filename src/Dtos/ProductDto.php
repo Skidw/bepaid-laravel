@@ -14,13 +14,13 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-class ProductDto
+class ProductDto extends BaseDto
 {
     /** @var \JackWalterSmith\BePaidLaravel\Types\MoneyType */
     public $money;
 
     /** @var \JackWalterSmith\BePaidLaravel\Types\AdditionalDataType */
-    public $additionalData;
+    public $additional_data;
 
     /** @var string */
     public $name;
@@ -38,11 +38,11 @@ class ProductDto
     public $immortal;
 
     /** @var \JackWalterSmith\BePaidLaravel\Enums\TransactionTypesEnum */
-    public $transactionType;
+    public $transaction_type;
 
     /** @var array<string> */
     public $visible;
 
     /** @var string */
-    public $expiredAt;
+    public $expired_at;
 }

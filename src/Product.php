@@ -12,15 +12,13 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
-
 use BeGateway\Product as BePaidProduct;
-use BeGateway\Response;
+use BeGateway\ResponseBase;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 
-class Product implements IGateway
+class Product extends GatewayAbstract
 {
     /** @var \BeGateway\Product */
     public $transaction;
@@ -33,15 +31,21 @@ class Product implements IGateway
     /**
      * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
      *
-     * @return \BeGateway\Response
+     * @return \BeGateway\ResponseApiProduct
      */
-    public function purchase($data): Response
+    public function purchase($data = null): ResponseBase
     {
-        // TODO: Implement purchase() method.
+        return parent::purchase($data);
     }
 
-    public function fill($data): IGateway
+    /**
+     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
+    public function fill($data, $object = null): IGateway
     {
-        // TODO: Implement fill() method.
+        return parent::fill($data, $object);
     }
 }

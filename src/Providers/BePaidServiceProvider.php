@@ -29,6 +29,7 @@ use Illuminate\Support\ServiceProvider;
 use JackWalterSmith\BePaidLaravel\{Authorization,
     CardToken,
     Enums\CurrencyEnum,
+    Enums\LanguageEnum,
     Payment,
     PaymentToken,
     Product,
@@ -102,7 +103,7 @@ class BePaidServiceProvider extends ServiceProvider
 
             $transaction = new GetPaymentToken();
 
-            $transaction->setTestMode($config['testing_mode']);
+            $transaction->setTestMode($config['test_mode']);
             $transaction->money->setCurrency($this->getCurrency($config));
             $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
@@ -129,7 +130,7 @@ class BePaidServiceProvider extends ServiceProvider
 
             $transaction = new PaymentOperation();
 
-            $transaction->setTestMode($config['testing_mode']);
+            $transaction->setTestMode($config['test_mode']);
             $transaction->money->setCurrency($this->getCurrency($config));
             $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
@@ -147,7 +148,7 @@ class BePaidServiceProvider extends ServiceProvider
 
             $transaction = new AuthorizationOperation();
 
-            $transaction->setTestMode($config['testing_mode']);
+            $transaction->setTestMode($config['test_mode']);
             $transaction->money->setCurrency($this->getCurrency($config));
             $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
@@ -175,7 +176,7 @@ class BePaidServiceProvider extends ServiceProvider
 
             $transaction = new BePaidProduct;
 
-            $transaction->setTestMode($config['testing_mode']);
+            $transaction->setTestMode($config['test_mode']);
             $transaction->money->setCurrency($this->getCurrency($config));
             $transaction->setLanguage($this->getLanguage($config));
             $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
@@ -207,22 +208,22 @@ class BePaidServiceProvider extends ServiceProvider
 
     private function getCurrency(?array $conf = null): string
     {
-        $config = $conf || config('bepaid') || require self::CONFIG_PATH;
+        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
 
         $formattedCurrency = strtoupper($config['currency']);
         $fallbackFormattedCurrency = strtoupper($config['fallback_currency']);
 
-        return CurrencyEnum::isValid($formattedCurrency) ? $formattedCurrency : $fallbackFormattedCurrency;
+        return CurrencyEnum::isValid($formattedCurrency) ? new CurrencyEnum($formattedCurrency) : new CurrencyEnum($fallbackFormattedCurrency);
     }
 
     private function getLanguage(?array $conf = null): string
     {
-        $config = $conf || config('bepaid') || require self::CONFIG_PATH;
+        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
 
-        $formattedLanguage = strtoupper($config['lang']);
-        $fallbackFormattedLanguage = strtoupper($config['fallback_lang']);
+        $formattedLanguage = strtolower($config['lang']);
+        $fallbackFormattedLanguage = strtolower($config['fallback_lang']);
 
-        return CurrencyEnum::isValid($formattedLanguage) ? $formattedLanguage : $fallbackFormattedLanguage;
+        return LanguageEnum::isValid($formattedLanguage) ? new LanguageEnum($formattedLanguage) : new LanguageEnum($fallbackFormattedLanguage);
     }
 
     /**
@@ -233,7 +234,8 @@ class BePaidServiceProvider extends ServiceProvider
      */
     private function setSpecialProperties(array $properties, $key, $trx): void {
         foreach ($properties as $prop) {
-            $method = "set{$prop}{$key}";
+            $camelCaseProp = Str::camel($prop);
+            $method = "set{$camelCaseProp}{$key}";
             if (method_exists($trx, $method)) {
                 $trx->{$method}();
             }

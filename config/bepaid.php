@@ -26,27 +26,27 @@ return [
     'urls' => [
         'notifications' => [
             'path' => '/notifications',
-            'name' => 'notifications',
+            'name' => 'bepaid.notifications',
         ],
         'success' => [
             'path' => '/success',
-            'name' => 'success',
+            'name' => 'bepaid.success',
         ],
         'decline' => [
             'path' => '/decline',
-            'name' => 'decline',
+            'name' => 'bepaid.decline',
         ],
         'fail' => [
             'path' => '/fail',
-            'name' => 'fail',
+            'name' => 'bepaid.fail',
         ],
         'cancel' => [
             'path' => '/cancel',
-            'name' => 'cancel',
+            'name' => 'bepaid.cancel',
         ],
         'return' => [
             'path' => '/return',
-            'name' => 'return'
+            'name' => 'bepaid.return'
         ],
     ],
     'visible' => [
