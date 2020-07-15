@@ -34,7 +34,6 @@ use JackWalterSmith\BePaidLaravel\{Authorization,
     PaymentToken,
     Product,
     Query};
-use Illuminate\Support\Str;
 
 class BePaidServiceProvider extends ServiceProvider
 {
@@ -112,10 +111,10 @@ class BePaidServiceProvider extends ServiceProvider
             $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
             $transaction->setCancelUrl(route($config['urls']['cancel']['name'], [], true));
             $transaction->setAttempts($config['attempts']);
-            $transaction->setExpiryDate(now()->addMinutes($config['expired_at'])->toIso8601String());
+            $transaction->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
 
-            $this->setSpecialProperties($config['visible'], 'visible', $transaction);
-            $this->setSpecialProperties($config['read_only'], 'readonly', $transaction);
+            $transaction->setVisible($config['visible']);
+            $transaction->setReadonly($config['read_only']);
 
             return new PaymentToken($transaction);
         });
@@ -183,9 +182,9 @@ class BePaidServiceProvider extends ServiceProvider
             $transaction->setSuccessUrl(route($config['urls']['success']['name'], [], true));
             $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
             $transaction->setReturnUrl(route($config['urls']['return']['name'], [], true));
-            $transaction->setExpiryDate(now()->addMinutes($config['expired_at'])->toIso8601String());
+            $transaction->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
 
-            $this->setSpecialProperties($config['visible'], 'visible', $transaction);
+            $transaction->setVisible($config['visible']);
 
             return new Product($transaction);
         });
@@ -224,21 +223,5 @@ class BePaidServiceProvider extends ServiceProvider
         $fallbackFormattedLanguage = strtolower($config['fallback_lang']);
 
         return LanguageEnum::isValid($formattedLanguage) ? new LanguageEnum($formattedLanguage) : new LanguageEnum($fallbackFormattedLanguage);
-    }
-
-    /**
-     * Set visible and readonly properties.
-     *
-     * @param array $properties
-     * @param       $trx
-     */
-    private function setSpecialProperties(array $properties, $key, $trx): void {
-        foreach ($properties as $prop) {
-            $camelCaseProp = Str::camel($prop);
-            $method = "set{$camelCaseProp}{$key}";
-            if (method_exists($trx, $method)) {
-                $trx->{$method}();
-            }
-        }
     }
 }

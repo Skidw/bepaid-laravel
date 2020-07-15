@@ -14,6 +14,8 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
+use Illuminate\Support\Str;
+
 abstract class BaseDto
 {
     /**
@@ -24,11 +26,32 @@ abstract class BaseDto
     public function __construct(?array $attributes = null)
     {
         if ($attributes && count($attributes)) {
-            foreach ($attributes as $attribute => $value) {
-                if (property_exists(static::class, $attribute)) {
-                    $this->{$attribute} = $value;
+            $this->fill($attributes, $this);
+        }
+    }
+
+    private function fill(array $attributes, $object)
+    {
+        $obj = $object ?? $this;
+
+        foreach ($attributes as $attribute => $value) {
+            if (property_exists($obj, $attribute)) {
+                if (is_array($value)) {
+                    $class = "JackWalterSmith\\BePaidLaravel\\Types\\" . ucfirst(Str::camel($attribute)) . 'Type';
+
+                    if (class_exists($class)) {
+                        $obj->{$attribute} = $this->fill($value, (new $class));
+                    } else {
+                        $obj->{$attribute} = $value;
+                    }
+                } else {
+                    $obj->{$attribute} = $value;
                 }
             }
+        }
+
+        if (! $object instanceof static) {
+            return $object;
         }
     }
 }

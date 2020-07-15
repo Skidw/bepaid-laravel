@@ -14,7 +14,7 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-class PaymentTokenDto
+class PaymentTokenDto extends BaseDto
 {
     /** @var \JackWalterSmith\BePaidLaravel\Types\CustomerType */
     public $customer;
@@ -23,16 +23,16 @@ class PaymentTokenDto
     public $money;
 
     /** @var \JackWalterSmith\BePaidLaravel\Types\AdditionalDataType */
-    public $additionalData;
+    public $additional_data;
 
     /** @var string */
     public $description;
 
     /** @var string */
-    public $trackingId;
+    public $tracking_id;
 
     /** @var \JackWalterSmith\BePaidLaravel\Enums\TransactionTypesEnum */
-    public $transactionType;
+    public $transaction_type;
 
     /** @var array<string> */
     public $readonly;
@@ -41,10 +41,10 @@ class PaymentTokenDto
     public $visible;
 
     /** @var array<\BeGateway\PaymentMethod\Base> */
-    public $paymentMethods;
+    public $payment_methods;
 
     /** @var string */
-    public $expiredAt;
+    public $expired_at;
 
     /** @var int */
     public $attempts;

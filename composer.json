@@ -1,51 +1,57 @@
 {
-    "name": "jack-walter-smith/bepaid-laravel",
-    "description": "A wrapper of https://github.com/begateway/begateway-api-php for Laravel",
-    "type": "library",
-    "require": {
-        "php": ">=7.1.*",
-        "laravel/framework": ">=5.6.*",
-        "begateway/begateway-api-php": "dev-master",
-        "myclabs/php-enum": "dev-master"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^5.2",
-      "ext-json": "*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Nikita Kim",
-            "email": "n.a.kim@yandex.ru"
-        }
-    ],
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-4": {
-            "JackWalterSmith\\BePaidLaravel\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "JackWalterSmith\\BePaidLaravel\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "JackWalterSmith\\BePaidLaravel\\Providers\\BePaidServiceProvider"
-            ],
-            "aliases": {
-                "Authorization": "JackWalterSmith\\BePaidLaravel\\Facades\\Authorization",
-                "CardToken": "JackWalterSmith\\BePaidLaravel\\Facades\\CardToken",
-                "Payment": "JackWalterSmith\\BePaidLaravel\\Facades\\Payment",
-                "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken",
-                "Product": "JackWalterSmith\\BePaidLaravel\\Facades\\Product",
-                "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query"
-            },
-            "branch-alias": {
-                "dev-master": "1.x"
-            }
-        }
+  "name": "jack-walter-smith/bepaid-laravel",
+  "description": "A wrapper of https://github.com/begateway/begateway-api-php for Laravel",
+  "type": "library",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Jack-Walter-Smith/begateway-api-php.git"
     }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "laravel/framework": ">=5.6",
+    "begateway/begateway-api-php": "dev-master",
+    "myclabs/php-enum": "dev-master"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^5.2",
+    "ext-json": "*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nikita Kim",
+      "email": "n.a.kim@yandex.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "JackWalterSmith\\BePaidLaravel\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "JackWalterSmith\\BePaidLaravel\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "JackWalterSmith\\BePaidLaravel\\Providers\\BePaidServiceProvider"
+      ],
+      "aliases": {
+        "Authorization": "JackWalterSmith\\BePaidLaravel\\Facades\\Authorization",
+        "CardToken": "JackWalterSmith\\BePaidLaravel\\Facades\\CardToken",
+        "Payment": "JackWalterSmith\\BePaidLaravel\\Facades\\Payment",
+        "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken",
+        "Product": "JackWalterSmith\\BePaidLaravel\\Facades\\Product",
+        "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query"
+      },
+      "branch-alias": {
+        "dev-master": "1.x"
+      }
+    }
+  }
 }

@@ -20,13 +20,13 @@ class CustomerType
 {
     public $ip;
     public $email;
-    public $firstName;
-    public $lastName;
+    public $first_name;
+    public $last_name;
     public $address;
     public $city;
     public $country;
     public $state;
     public $zip;
     public $phone;
-    public $birthDate = NULL;
+    public $birth_date = NULL;
 }

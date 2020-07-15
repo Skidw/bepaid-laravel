@@ -14,11 +14,12 @@
 
 namespace JackWalterSmith\BePaidLaravel;
 
-use BeGateway\{GetPaymentToken, Response};
+use BeGateway\{GetPaymentToken, ResponseBase};
+use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 use JackWalterSmith\BePaidLaravel\Dtos\PaymentTokenDto;
 
-class PaymentToken implements IGateway
+class PaymentToken extends GatewayAbstract
 {
     /** @var \BeGateway\GetPaymentToken */
     public $transaction;
@@ -31,17 +32,25 @@ class PaymentToken implements IGateway
     /**
      * @param PaymentTokenDto $data
      *
-     * @return \BeGateway\Response
+     * @return \BeGateway\ResponseCheckout
      */
-    public function purchase($data): Response
+    public function purchase($data = null): ResponseBase
     {
-        if (!empty($data)) $this->fill($data);
-
-        return $this->transaction->submit();
+        return parent::purchase($data);
     }
 
-    public function fill($data): IGateway
+    /**
+     * @param PaymentTokenDto                                                                                $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
+    public function fill($data, $object = null): IGateway
     {
+        if ($data instanceof PaymentTokenDto && empty($data->tracking_id)) {
+            $data->tracking_id = Str::uuid();
+        }
 
+        return parent::fill($data, $object);
     }
 }

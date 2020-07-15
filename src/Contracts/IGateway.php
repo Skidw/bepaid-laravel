@@ -30,7 +30,7 @@ interface IGateway
      *
      * @return \BeGateway\ResponseBase
      */
-    public function purchase($data): ResponseBase;
+    public function purchase($data = null): ResponseBase;
 
     /**
      * @param AuthorizationDto|CardTokenDto|PaymentTokenDto|ProductDto $data
