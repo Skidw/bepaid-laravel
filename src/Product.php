@@ -17,6 +17,7 @@ namespace JackWalterSmith\BePaidLaravel;
 use BeGateway\Product as BePaidProduct;
 use BeGateway\ResponseBase;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\ProductDto;
 
 class Product extends GatewayAbstract
 {
@@ -29,7 +30,7 @@ class Product extends GatewayAbstract
     }
 
     /**
-     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
+     * @param ProductDto $data
      *
      * @return \BeGateway\ResponseApiProduct
      * @throws \Exception
@@ -40,7 +41,7 @@ class Product extends GatewayAbstract
     }
 
     /**
-     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
+     * @param ProductDto $data
      * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway

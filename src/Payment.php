@@ -44,6 +44,12 @@ class Payment extends GatewayAbstract
         return parent::submit($data);
     }
 
+    /**
+     * @param PaymentDto                                                                                   $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
     public function fill($data, $object = null): IGateway
     {
         if ($data instanceof PaymentDto && empty($data->tracking_id)) {
