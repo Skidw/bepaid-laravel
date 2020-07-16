@@ -123,7 +123,7 @@ class ProductTest extends TestCase
         $this->assertEquals(sort($this->data['visible']), sort($visible));
     }
 
-    public function testPurchaseWithData()
+    public function testSubmitWithData()
     {
         $productDto = new ProductDto($this->data);
 
@@ -159,7 +159,7 @@ class ProductTest extends TestCase
         $this->assertEquals($result->amount, $this->product->operation->money->getCents());
     }
 
-    public function testPurchaseWithoutData()
+    public function testSubmitWithoutData()
     {
         $productDto = new ProductDto($this->data);
 

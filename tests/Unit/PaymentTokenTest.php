@@ -125,14 +125,14 @@ class PaymentTokenTest extends TestCase
         $this->assertEquals(sort($this->data['visible']), sort($visible));
         $readonly = $result->operation->getReadonly();
         $this->assertEquals(sort($this->data['readonly']), sort($readonly));
-        $this->assertEquals(count($this->data['customer']), count((array)$result->operation->customer));
+        $this->assertSameSize($this->data['customer'], (array)$result->operation->customer);
 
         foreach ($result->operation->customer as $key => $value) {
             $this->assertEquals($this->data['customer'][$key], $value);
         }
     }
 
-    public function testPurchaseWithData()
+    public function testSubmitWithData()
     {
         $paymentTokenDto = new PaymentTokenDto($this->data);
 
@@ -146,7 +146,7 @@ class PaymentTokenTest extends TestCase
         $this->assertIsString($response->getToken());
     }
 
-    public function testPurchaseWithoutData()
+    public function testSubmitWithoutData()
     {
         $paymentTokenDto = new PaymentTokenDto($this->data);
 
