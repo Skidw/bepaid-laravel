@@ -23,7 +23,9 @@ use BeGateway\{AuthorizationOperation,
     QueryByTrackingId,
     QueryByUid,
     RefundOperation,
-    Settings};
+    Settings,
+    Webhook
+};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JackWalterSmith\BePaidLaravel\{Authorization,
@@ -34,7 +36,8 @@ use JackWalterSmith\BePaidLaravel\{Authorization,
     PaymentToken,
     Product,
     Query,
-    Refund};
+    Refund
+};
 
 class BePaidServiceProvider extends ServiceProvider
 {
@@ -224,6 +227,15 @@ class BePaidServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Refund::class, 'bepaid.refund');
+    }
+
+    private function bindWebhook()
+    {
+        $this->app->bind(Webhook::class, function () {
+            return new Webhook();
+        });
+
+        $this->app->alias(Webhook::class, 'bepaid.webhook');
     }
 
     private function getCurrency(?array $conf = null): string
