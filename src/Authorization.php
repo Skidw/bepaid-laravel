@@ -15,13 +15,15 @@
 namespace JackWalterSmith\BePaidLaravel;
 
 use BeGateway\AuthorizationOperation;
+use BeGateway\PaymentOperation;
 use BeGateway\ResponseBase;
+use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
-use JackWalterSmith\BePaidLaravel\Dtos\AuthorizationDto;
+use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto, PaymentDto};
 
 class Authorization extends GatewayAbstract
 {
-    /** @var \BeGateway\AuthorizationOperation */
+    /** @var AuthorizationOperation|PaymentOperation */
     public $operation;
 
     public function __construct(AuthorizationOperation $operation)
@@ -30,7 +32,7 @@ class Authorization extends GatewayAbstract
     }
 
     /**
-     * @param AuthorizationDto $data
+     * @param AuthorizationDto|PaymentDto $data
      *
      * @return \BeGateway\Response
      * @throws \Exception
@@ -41,13 +43,17 @@ class Authorization extends GatewayAbstract
     }
 
     /**
-     * @param AuthorizationDto                                                                               $data
+     * @param AuthorizationDto|PaymentDto                                                                    $data
      * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
      */
     public function fill($data, $object = null): IGateway
     {
+        if ($data instanceof AuthorizationDto && empty($data->tracking_id)) {
+            $data->tracking_id = Str::uuid();
+        }
+
         return parent::fill($data, $object);
     }
 }

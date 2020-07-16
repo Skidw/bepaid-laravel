@@ -14,45 +14,6 @@
 
 namespace JackWalterSmith\BePaidLaravel;
 
-use BeGateway\PaymentOperation;
-use BeGateway\ResponseBase;
-use Illuminate\Support\Str;
-use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
-use JackWalterSmith\BePaidLaravel\Dtos\PaymentDto;
-
-class Payment extends GatewayAbstract
+class Payment extends Authorization
 {
-    /** @var \BeGateway\PaymentOperation */
-    public $operation;
-
-    public function __construct(PaymentOperation $operation)
-    {
-        $this->operation = $operation;
-    }
-
-    /**
-     * @param PaymentDto $data
-     *
-     * @return \BeGateway\Response
-     * @throws \Exception
-     */
-    public function submit($data = null): ResponseBase
-    {
-        return parent::submit($data);
-    }
-
-    /**
-     * @param PaymentDto                                                                                     $data
-     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
-     *
-     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
-     */
-    public function fill($data, $object = null): IGateway
-    {
-        if ($data instanceof PaymentDto && empty($data->tracking_id)) {
-            $data->tracking_id = Str::uuid();
-        }
-
-        return parent::fill($data, $object);
-    }
 }

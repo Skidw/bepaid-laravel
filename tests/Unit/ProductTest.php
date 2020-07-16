@@ -153,7 +153,7 @@ class ProductTest extends TestCase
         $this->assertEquals($result->quantity, $this->product->operation->getQuantity());
         $this->assertEquals($result->infinite, $this->product->operation->getInfinite());
         $this->assertEquals($result->language, $this->product->operation->getLanguage());
-        $this->assertEquals($result->operation_type, $this->product->operation->getTransactionType());
+        $this->assertEquals($result->transaction_type, $this->product->operation->getTransactionType());
         $this->assertEquals($result->test, $this->product->operation->getTestMode());
         $this->assertEquals($result->currency, $this->product->operation->money->getCurrency());
         $this->assertEquals($result->amount, $this->product->operation->money->getCents());
@@ -189,7 +189,7 @@ class ProductTest extends TestCase
         $this->assertEquals($result->quantity, $this->product->operation->getQuantity());
         $this->assertEquals($result->infinite, $this->product->operation->getInfinite());
         $this->assertEquals($result->language, $this->product->operation->getLanguage());
-        $this->assertEquals($result->operation_type, $this->product->operation->getTransactionType());
+        $this->assertEquals($result->transaction_type, $this->product->operation->getTransactionType());
         $this->assertEquals($result->test, $this->product->operation->getTestMode());
         $this->assertEquals($result->currency, $this->product->operation->money->getCurrency());
         $this->assertEquals($result->amount, $this->product->operation->money->getCents());
