@@ -34,9 +34,9 @@ class PaymentToken extends GatewayAbstract
      *
      * @return \BeGateway\ResponseCheckout
      */
-    public function purchase($data = null): ResponseBase
+    public function submit($data = null): ResponseBase
     {
-        return parent::purchase($data);
+        return parent::submit($data);
     }
 
     /**

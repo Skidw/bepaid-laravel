@@ -18,10 +18,12 @@ namespace JackWalterSmith\BePaidLaravel;
 
 use BeGateway\PaymentOperation;
 use BeGateway\Response;
+use BeGateway\ResponseBase;
+use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 use JackWalterSmith\BePaidLaravel\Dtos\PaymentDto;
 
-class Payment implements IGateway
+class Payment extends GatewayAbstract
 {
     /** @var \BeGateway\PaymentOperation */
     public $transaction;
@@ -35,14 +37,19 @@ class Payment implements IGateway
      * @param PaymentDto $data
      *
      * @return \BeGateway\Response
+     * @throws \Exception
      */
-    public function purchase($data): Response
+    public function submit($data = null): ResponseBase
     {
-        // TODO: Implement purchase() method.
+        return parent::submit($data);
     }
 
-    public function fill($data): IGateway
+    public function fill($data, $object = null): IGateway
     {
-        // TODO: Implement fill() method.
+        if ($data instanceof PaymentDto && empty($data->tracking_id)) {
+            $data->tracking_id = Str::uuid();
+        }
+
+        return parent::fill($data, $object);
     }
 }

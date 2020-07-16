@@ -26,11 +26,11 @@ class AuthorizationDto
     public $money;
 
     /** @var \JackWalterSmith\BePaidLaravel\Types\AdditionalDataType */
-    public $additionalData;
+    public $additional_data;
 
     /** @var string */
     public $description;
 
     /** @var string */
-    public $trackingId;
+    public $tracking_id;
 }

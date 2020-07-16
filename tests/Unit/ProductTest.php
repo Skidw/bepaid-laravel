@@ -121,7 +121,7 @@ class ProductTest extends TestCase
         $productDto = new ProductDto($this->data);
 
         /** @var \BeGateway\ResponseApiProduct $response */
-        $response = $this->product->purchase($productDto);
+        $response = $this->product->submit($productDto);
 
         /** @var object $result */
         $result = $response->getResponse();
@@ -159,7 +159,7 @@ class ProductTest extends TestCase
         $this->product->fill($productDto);
 
         /** @var \BeGateway\ResponseApiProduct $response */
-        $response = $this->product->purchase();
+        $response = $this->product->submit();
 
         /** @var object $result */
         $result = $response->getResponse();

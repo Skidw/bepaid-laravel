@@ -130,7 +130,7 @@ class PaymentTokenTest extends TestCase
         $paymentTokenDto = new PaymentTokenDto($this->data);
 
         /** @var \BeGateway\ResponseCheckout $response */
-        $response = $this->paymentToken->purchase($paymentTokenDto);
+        $response = $this->paymentToken->submit($paymentTokenDto);
 
         $this->assertTrue($response->isValid());
         $this->assertTrue($response->isSuccess());
@@ -144,7 +144,7 @@ class PaymentTokenTest extends TestCase
         $paymentTokenDto = new PaymentTokenDto($this->data);
 
         /** @var \BeGateway\ResponseCheckout $response */
-        $response = $this->paymentToken->fill($paymentTokenDto)->purchase();
+        $response = $this->paymentToken->fill($paymentTokenDto)->submit();
 
         $this->assertTrue($response->isValid());
         $this->assertTrue($response->isSuccess());

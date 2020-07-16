@@ -22,8 +22,8 @@ use BeGateway\{AuthorizationOperation,
     QueryByPaymentToken,
     QueryByTrackingId,
     QueryByUid,
-    Settings
-};
+    RefundOperation,
+    Settings};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JackWalterSmith\BePaidLaravel\{Authorization,
@@ -33,7 +33,8 @@ use JackWalterSmith\BePaidLaravel\{Authorization,
     Payment,
     PaymentToken,
     Product,
-    Query};
+    Query,
+    Refund};
 
 class BePaidServiceProvider extends ServiceProvider
 {
@@ -55,6 +56,7 @@ class BePaidServiceProvider extends ServiceProvider
         $this->bindCardToken();
         $this->bindProduct();
         $this->bindQuery();
+        $this->bindRefund();
     }
 
     /**
@@ -203,6 +205,17 @@ class BePaidServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Query::class, 'bepaid.query');
+    }
+
+    private function bindRefund(): void
+    {
+        $this->app->bind(Refund::class, function () {
+            $operation = new RefundOperation();
+
+            return new Refund($operation);
+        });
+
+        $this->app->alias(Refund::class, 'bepaid.refund');
     }
 
     private function getCurrency(?array $conf = null): string

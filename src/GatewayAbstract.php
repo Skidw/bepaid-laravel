@@ -17,7 +17,13 @@ namespace JackWalterSmith\BePaidLaravel;
 use BeGateway\{AuthorizationOperation, CardToken, GetPaymentToken, PaymentOperation, ResponseBase};
 use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
-use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto, CardTokenDto, PaymentDto, PaymentTokenDto, ProductDto};
+use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
+    CardTokenDto,
+    PaymentDto,
+    PaymentTokenDto,
+    ProductDto,
+    RefundDto
+};
 
 abstract class GatewayAbstract implements IGateway
 {
@@ -25,18 +31,24 @@ abstract class GatewayAbstract implements IGateway
     public $transaction;
 
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto $data
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
      *
      * @return \BeGateway\ResponseBase
      * @throws \Exception
      */
-    public function purchase($data = null): ResponseBase
+    public function submit($data = null): ResponseBase
     {
         if ($data) $this->fill($data);
 
         return $this->transaction->submit();
     }
 
+    /**
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
+     * @param null                                                                          $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
     public function fill($data, $object = null): IGateway
     {
         $obj = $object ?? $this->transaction;

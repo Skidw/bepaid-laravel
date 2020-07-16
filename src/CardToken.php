@@ -12,16 +12,14 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
-
 use BeGateway\CardToken as BePaidCardToken;
-use BeGateway\Response;
+use BeGateway\ResponseBase;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 use JackWalterSmith\BePaidLaravel\Dtos\CardTokenDto;
 
-class CardToken implements IGateway
+class CardToken extends GatewayAbstract
 {
     /** @var \BeGateway\CardToken */
     public $token;
@@ -34,15 +32,22 @@ class CardToken implements IGateway
     /**
      * @param CardTokenDto $data
      *
-     * @return \BeGateway\Response
+     * @return \BeGateway\ResponseCardToken
+     * @throws \Exception
      */
-    public function purchase($data): Response
+    public function submit($data = null): ResponseBase
     {
-        // TODO: Implement purchase() method.
+        return parent::submit($data);
     }
 
-    public function fill($data): IGateway
+    /**
+     * @param CardTokenDto                                                                                   $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
+    public function fill($data, $object = null): IGateway
     {
-        // TODO: Implement fill() method.
+        return parent::fill($data, $object);
     }
 }

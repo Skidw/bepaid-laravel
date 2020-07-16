@@ -14,24 +14,37 @@
 
 namespace JackWalterSmith\BePaidLaravel;
 
-use BeGateway\Product as BePaidProduct;
+use BeGateway\RefundOperation;
 use BeGateway\ResponseBase;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\RefundDto;
 
-class Product extends GatewayAbstract
+/**
+ * Class Refund
+ *
+ * @package JackWalterSmith\BePaidLaravel
+ */
+class Refund extends GatewayAbstract
 {
-    /** @var \BeGateway\Product */
-    public $transaction;
+    /**
+     * @var \BeGateway\RefundOperation
+     */
+    public $operation;
 
-    public function __construct(BePaidProduct $transaction)
+    /**
+     * Refund constructor.
+     *
+     * @param \BeGateway\RefundOperation $operation
+     */
+    public function __construct(RefundOperation $operation)
     {
-        $this->transaction = $transaction;
+        $this->operation = $operation;
     }
 
     /**
-     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
+     * @param null $data
      *
-     * @return \BeGateway\ResponseApiProduct
+     * @return \BeGateway\ResponseBase
      * @throws \Exception
      */
     public function submit($data = null): ResponseBase
@@ -40,8 +53,8 @@ class Product extends GatewayAbstract
     }
 
     /**
-     * @param \JackWalterSmith\BePaidLaravel\Dtos\ProductDto $data
-     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
+     * @param RefundDto $data
+     * @param null      $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
      */

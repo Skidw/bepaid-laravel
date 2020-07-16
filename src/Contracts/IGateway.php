@@ -14,28 +14,27 @@
 
 namespace JackWalterSmith\BePaidLaravel\Contracts;
 
-use BeGateway\{
-    AuthorizationOperation,
-    CardToken,
-    GetPaymentToken,
-    PaymentOperation,
-    ResponseBase
+use BeGateway\{AuthorizationOperation, CardToken, GetPaymentToken, PaymentOperation, ResponseBase};
+use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
+    CardTokenDto,
+    PaymentDto,
+    PaymentTokenDto,
+    ProductDto,
+    RefundDto
 };
-use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto, CardTokenDto, PaymentDto, PaymentTokenDto, ProductDto};
 
 interface IGateway
 {
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto $data
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
      *
      * @return \BeGateway\ResponseBase
      */
-    public function purchase($data = null): ResponseBase;
+    public function submit($data = null): ResponseBase;
 
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentTokenDto|ProductDto $data
-     *
-     * @param null|AuthorizationOperation|CardToken|GetPaymentToken|PaymentOperation $object
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto    $data
+     * @param null|AuthorizationOperation|CardToken|GetPaymentToken|PaymentOperation|RefundDto $object
      *
      * @return IGateway
      */

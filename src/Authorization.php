@@ -12,16 +12,14 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
-
 use BeGateway\AuthorizationOperation;
-use BeGateway\Response;
+use BeGateway\ResponseBase;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 use JackWalterSmith\BePaidLaravel\Dtos\AuthorizationDto;
 
-class Authorization implements IGateway
+class Authorization extends GatewayAbstract
 {
     /** @var \BeGateway\AuthorizationOperation */
     public $transaction;
@@ -35,14 +33,21 @@ class Authorization implements IGateway
      * @param AuthorizationDto $data
      *
      * @return \BeGateway\Response
+     * @throws \Exception
      */
-    public function purchase($data): Response
+    public function submit($data = null): ResponseBase
     {
-        // TODO: Implement purchase() method.
+        return parent::submit($data);
     }
 
-    public function fill($data): IGateway
+    /**
+     * @param AuthorizationDto                                                                               $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
+    public function fill($data, $object = null): IGateway
     {
-        // TODO: Implement fill() method.
+        return parent::fill($data, $object);
     }
 }

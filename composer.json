@@ -47,7 +47,8 @@
         "Payment": "JackWalterSmith\\BePaidLaravel\\Facades\\Payment",
         "PaymentToken": "JackWalterSmith\\BePaidLaravel\\Facades\\PaymentToken",
         "Product": "JackWalterSmith\\BePaidLaravel\\Facades\\Product",
-        "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query"
+        "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query",
+        "Refund": "JackWalterSmith\\BePaidLaravel\\Facades\\Refund"
       },
       "branch-alias": {
         "dev-master": "1.x"
