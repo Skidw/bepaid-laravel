@@ -14,7 +14,7 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-class AuthorizationDto
+class AuthorizationDto extends BaseDto
 {
     /** @var \JackWalterSmith\BePaidLaravel\Types\CustomerType */
     public $customer;

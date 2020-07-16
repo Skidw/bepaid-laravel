@@ -22,11 +22,11 @@ use JackWalterSmith\BePaidLaravel\Dtos\AuthorizationDto;
 class Authorization extends GatewayAbstract
 {
     /** @var \BeGateway\AuthorizationOperation */
-    public $transaction;
+    public $operation;
 
-    public function __construct(AuthorizationOperation $transaction)
+    public function __construct(AuthorizationOperation $operation)
     {
-        $this->transaction = $transaction;
+        $this->operation = $operation;
     }
 
     /**

@@ -22,11 +22,11 @@ use JackWalterSmith\BePaidLaravel\Dtos\PaymentTokenDto;
 class PaymentToken extends GatewayAbstract
 {
     /** @var \BeGateway\GetPaymentToken */
-    public $transaction;
+    public $operation;
 
-    public function __construct(GetPaymentToken $transaction)
+    public function __construct(GetPaymentToken $operation)
     {
-        $this->transaction = $transaction;
+        $this->operation = $operation;
     }
 
     /**

@@ -80,6 +80,13 @@ class ProductTest extends TestCase
         return [BePaidServiceProvider::class];
     }
 
+    protected function tearDown(): void
+    {
+        \Mockery::close();
+
+        parent::tearDown();
+    }
+
     public function testLoadedClass()
     {
         $config = $this->app['config']->get('bepaid');
@@ -87,14 +94,14 @@ class ProductTest extends TestCase
         /** @var \Illuminate\Routing\UrlGenerator $router */
         $router = $this->app['url'];
 
-        $this->assertEquals($config['test_mode'], $this->product->transaction->getTestMode());
-        $this->assertEquals($config['currency'], $this->product->transaction->money->getCurrency());
-        $this->assertEquals($config['lang'], $this->product->transaction->getLanguage());
-        $this->assertEquals($router->route($config['urls']['notifications']['name'], [], true), $this->product->transaction->getNotificationUrl());
-        $this->assertEquals($router->route($config['urls']['success']['name'], [], true), $this->product->transaction->getSuccessUrl());
-        $this->assertEquals($router->route($config['urls']['fail']['name'], [], true), $this->product->transaction->getFailUrl());
-        $this->assertEquals($router->route($config['urls']['return']['name'], [], true), $this->product->transaction->getReturnUrl());
-        $this->assertNotNull($this->product->transaction->getExpiredAt());
+        $this->assertEquals($config['test_mode'], $this->product->operation->getTestMode());
+        $this->assertEquals($config['currency'], $this->product->operation->money->getCurrency());
+        $this->assertEquals($config['lang'], $this->product->operation->getLanguage());
+        $this->assertEquals($router->route($config['urls']['notifications']['name'], [], true), $this->product->operation->getNotificationUrl());
+        $this->assertEquals($router->route($config['urls']['success']['name'], [], true), $this->product->operation->getSuccessUrl());
+        $this->assertEquals($router->route($config['urls']['fail']['name'], [], true), $this->product->operation->getFailUrl());
+        $this->assertEquals($router->route($config['urls']['return']['name'], [], true), $this->product->operation->getReturnUrl());
+        $this->assertNotNull($this->product->operation->getExpiredAt());
     }
 
     public function testFill()
@@ -104,15 +111,15 @@ class ProductTest extends TestCase
         /** @var Product $result */
         $result = $this->product->fill($productDto);
 
-        $this->assertEquals($this->data['name'], $result->transaction->getName());
-        $this->assertEquals($this->data['description'], $result->transaction->getDescription());
-        $this->assertEquals($this->data['quantity'], $result->transaction->getQuantity());
-        $this->assertEquals($this->data['infinite'], $result->transaction->getInfinite());
-        $this->assertEquals($this->data['immortal'], $result->transaction->getImmortal());
-        $this->assertEquals($this->data['transaction_type'], $result->transaction->getTransactionType());
-        $this->assertEquals($this->data['money']['amount'], $result->transaction->money->getAmount());
-        $this->assertEquals($this->data['additional_data']['receipt'], $result->transaction->additional_data->getReceipt());
-        $visible = $result->transaction->getVisible();
+        $this->assertEquals($this->data['name'], $result->operation->getName());
+        $this->assertEquals($this->data['description'], $result->operation->getDescription());
+        $this->assertEquals($this->data['quantity'], $result->operation->getQuantity());
+        $this->assertEquals($this->data['infinite'], $result->operation->getInfinite());
+        $this->assertEquals($this->data['immortal'], $result->operation->getImmortal());
+        $this->assertEquals($this->data['transaction_type'], $result->operation->getTransactionType());
+        $this->assertEquals($this->data['money']['amount'], $result->operation->money->getAmount());
+        $this->assertEquals($this->data['additional_data']['receipt'], $result->operation->additional_data->getReceipt());
+        $visible = $result->operation->getVisible();
         $this->assertEquals(sort($this->data['visible']), sort($visible));
     }
 
@@ -126,30 +133,30 @@ class ProductTest extends TestCase
         /** @var object $result */
         $result = $response->getResponse();
 
-        $this->assertEquals($this->data['name'], $this->product->transaction->getName());
-        $this->assertEquals($this->data['description'], $this->product->transaction->getDescription());
-        $this->assertEquals($this->data['quantity'], $this->product->transaction->getQuantity());
-        $this->assertEquals($this->data['infinite'], $this->product->transaction->getInfinite());
-        $this->assertEquals($this->data['immortal'], $this->product->transaction->getImmortal());
-        $this->assertEquals($this->data['transaction_type'], $this->product->transaction->getTransactionType());
-        $this->assertEquals($this->data['money']['amount'], $this->product->transaction->money->getAmount());
-        $this->assertEquals($this->data['additional_data']['receipt'], $this->product->transaction->additional_data->getReceipt());
-        $visible = $this->product->transaction->getVisible();
+        $this->assertEquals($this->data['name'], $this->product->operation->getName());
+        $this->assertEquals($this->data['description'], $this->product->operation->getDescription());
+        $this->assertEquals($this->data['quantity'], $this->product->operation->getQuantity());
+        $this->assertEquals($this->data['infinite'], $this->product->operation->getInfinite());
+        $this->assertEquals($this->data['immortal'], $this->product->operation->getImmortal());
+        $this->assertEquals($this->data['transaction_type'], $this->product->operation->getTransactionType());
+        $this->assertEquals($this->data['money']['amount'], $this->product->operation->money->getAmount());
+        $this->assertEquals($this->data['additional_data']['receipt'], $this->product->operation->additional_data->getReceipt());
+        $visible = $this->product->operation->getVisible();
         $this->assertEquals(sort($this->data['visible']), sort($visible));
 
         $this->assertTrue($response->isValid());
         $this->assertTrue($response->isSuccess());
         $this->assertNotNull($response->getId());
 
-        $this->assertEquals($result->name, $this->product->transaction->getName());
-        $this->assertEquals($result->description, $this->product->transaction->getDescription());
-        $this->assertEquals($result->quantity, $this->product->transaction->getQuantity());
-        $this->assertEquals($result->infinite, $this->product->transaction->getInfinite());
-        $this->assertEquals($result->language, $this->product->transaction->getLanguage());
-        $this->assertEquals($result->transaction_type, $this->product->transaction->getTransactionType());
-        $this->assertEquals($result->test, $this->product->transaction->getTestMode());
-        $this->assertEquals($result->currency, $this->product->transaction->money->getCurrency());
-        $this->assertEquals($result->amount, $this->product->transaction->money->getCents());
+        $this->assertEquals($result->name, $this->product->operation->getName());
+        $this->assertEquals($result->description, $this->product->operation->getDescription());
+        $this->assertEquals($result->quantity, $this->product->operation->getQuantity());
+        $this->assertEquals($result->infinite, $this->product->operation->getInfinite());
+        $this->assertEquals($result->language, $this->product->operation->getLanguage());
+        $this->assertEquals($result->operation_type, $this->product->operation->getTransactionType());
+        $this->assertEquals($result->test, $this->product->operation->getTestMode());
+        $this->assertEquals($result->currency, $this->product->operation->money->getCurrency());
+        $this->assertEquals($result->amount, $this->product->operation->money->getCents());
     }
 
     public function testPurchaseWithoutData()
@@ -164,27 +171,27 @@ class ProductTest extends TestCase
         /** @var object $result */
         $result = $response->getResponse();
 
-        $this->assertEquals($this->data['name'], $this->product->transaction->getName());
-        $this->assertEquals($this->data['description'], $this->product->transaction->getDescription());
-        $this->assertEquals($this->data['quantity'], $this->product->transaction->getQuantity());
-        $this->assertEquals($this->data['infinite'], $this->product->transaction->getInfinite());
-        $this->assertEquals($this->data['immortal'], $this->product->transaction->getImmortal());
-        $this->assertEquals($this->data['transaction_type'], $this->product->transaction->getTransactionType());
-        $this->assertEquals($this->data['money']['amount'], $this->product->transaction->money->getAmount());
-        $this->assertEquals($this->data['additional_data']['receipt'], $this->product->transaction->additional_data->getReceipt());
+        $this->assertEquals($this->data['name'], $this->product->operation->getName());
+        $this->assertEquals($this->data['description'], $this->product->operation->getDescription());
+        $this->assertEquals($this->data['quantity'], $this->product->operation->getQuantity());
+        $this->assertEquals($this->data['infinite'], $this->product->operation->getInfinite());
+        $this->assertEquals($this->data['immortal'], $this->product->operation->getImmortal());
+        $this->assertEquals($this->data['transaction_type'], $this->product->operation->getTransactionType());
+        $this->assertEquals($this->data['money']['amount'], $this->product->operation->money->getAmount());
+        $this->assertEquals($this->data['additional_data']['receipt'], $this->product->operation->additional_data->getReceipt());
 
         $this->assertTrue($response->isValid());
         $this->assertTrue($response->isSuccess());
         $this->assertNotNull($response->getId());
 
-        $this->assertEquals($result->name, $this->product->transaction->getName());
-        $this->assertEquals($result->description, $this->product->transaction->getDescription());
-        $this->assertEquals($result->quantity, $this->product->transaction->getQuantity());
-        $this->assertEquals($result->infinite, $this->product->transaction->getInfinite());
-        $this->assertEquals($result->language, $this->product->transaction->getLanguage());
-        $this->assertEquals($result->transaction_type, $this->product->transaction->getTransactionType());
-        $this->assertEquals($result->test, $this->product->transaction->getTestMode());
-        $this->assertEquals($result->currency, $this->product->transaction->money->getCurrency());
-        $this->assertEquals($result->amount, $this->product->transaction->money->getCents());
+        $this->assertEquals($result->name, $this->product->operation->getName());
+        $this->assertEquals($result->description, $this->product->operation->getDescription());
+        $this->assertEquals($result->quantity, $this->product->operation->getQuantity());
+        $this->assertEquals($result->infinite, $this->product->operation->getInfinite());
+        $this->assertEquals($result->language, $this->product->operation->getLanguage());
+        $this->assertEquals($result->operation_type, $this->product->operation->getTransactionType());
+        $this->assertEquals($result->test, $this->product->operation->getTestMode());
+        $this->assertEquals($result->currency, $this->product->operation->money->getCurrency());
+        $this->assertEquals($result->amount, $this->product->operation->money->getCents());
     }
 }

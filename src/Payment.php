@@ -12,12 +12,9 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
-
 use BeGateway\PaymentOperation;
-use BeGateway\Response;
 use BeGateway\ResponseBase;
 use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
@@ -26,11 +23,11 @@ use JackWalterSmith\BePaidLaravel\Dtos\PaymentDto;
 class Payment extends GatewayAbstract
 {
     /** @var \BeGateway\PaymentOperation */
-    public $transaction;
+    public $operation;
 
-    public function __construct(PaymentOperation $transaction)
+    public function __construct(PaymentOperation $operation)
     {
-        $this->transaction = $transaction;
+        $this->operation = $operation;
     }
 
     /**
@@ -45,7 +42,7 @@ class Payment extends GatewayAbstract
     }
 
     /**
-     * @param PaymentDto                                                                                   $data
+     * @param PaymentDto                                                                                     $data
      * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Customer|\BeGateway\GetPaymentToken $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway

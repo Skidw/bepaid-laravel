@@ -22,11 +22,11 @@ use JackWalterSmith\BePaidLaravel\Dtos\ProductDto;
 class Product extends GatewayAbstract
 {
     /** @var \BeGateway\Product */
-    public $transaction;
+    public $operation;
 
-    public function __construct(BePaidProduct $transaction)
+    public function __construct(BePaidProduct $operation)
     {
-        $this->transaction = $transaction;
+        $this->operation = $operation;
     }
 
     /**

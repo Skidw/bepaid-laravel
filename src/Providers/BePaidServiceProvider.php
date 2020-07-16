@@ -102,23 +102,23 @@ class BePaidServiceProvider extends ServiceProvider
         $this->app->bind(PaymentToken::class, function ($app) {
             $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-            $transaction = new GetPaymentToken();
+            $operation = new GetPaymentToken();
 
-            $transaction->setTestMode($config['test_mode']);
-            $transaction->money->setCurrency($this->getCurrency($config));
-            $transaction->setLanguage($this->getLanguage($config));
-            $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
-            $transaction->setSuccessUrl(route($config['urls']['success']['name'], [], true));
-            $transaction->setDeclineUrl(route($config['urls']['decline']['name'], [], true));
-            $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
-            $transaction->setCancelUrl(route($config['urls']['cancel']['name'], [], true));
-            $transaction->setAttempts($config['attempts']);
-            $transaction->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
+            $operation->setTestMode($config['test_mode']);
+            $operation->money->setCurrency($this->getCurrency($config));
+            $operation->setLanguage($this->getLanguage($config));
+            $operation->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $operation->setSuccessUrl(route($config['urls']['success']['name'], [], true));
+            $operation->setDeclineUrl(route($config['urls']['decline']['name'], [], true));
+            $operation->setFailUrl(route($config['urls']['fail']['name'], [], true));
+            $operation->setCancelUrl(route($config['urls']['cancel']['name'], [], true));
+            $operation->setAttempts($config['attempts']);
+            $operation->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
 
-            $transaction->setVisible($config['visible']);
-            $transaction->setReadonly($config['read_only']);
+            $operation->setVisible($config['visible']);
+            $operation->setReadonly($config['read_only']);
 
-            return new PaymentToken($transaction);
+            return new PaymentToken($operation);
         });
 
         $this->app->alias(PaymentToken::class, 'bepaid.paymentToken');
@@ -129,14 +129,14 @@ class BePaidServiceProvider extends ServiceProvider
         $this->app->bind(Payment::class, function (Application $app) {
             $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-            $transaction = new PaymentOperation();
+            $operation = new PaymentOperation();
 
-            $transaction->setTestMode($config['test_mode']);
-            $transaction->money->setCurrency($this->getCurrency($config));
-            $transaction->setLanguage($this->getLanguage($config));
-            $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $operation->setTestMode($config['test_mode']);
+            $operation->money->setCurrency($this->getCurrency($config));
+            $operation->setLanguage($this->getLanguage($config));
+            $operation->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
 
-            return new Payment($transaction);
+            return new Payment($operation);
         });
 
         $this->app->alias(Payment::class, 'bepaid.payment');
@@ -147,15 +147,15 @@ class BePaidServiceProvider extends ServiceProvider
         $this->app->bind(Authorization::class, function (Application $app) {
             $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-            $transaction = new AuthorizationOperation();
+            $operation = new AuthorizationOperation();
 
-            $transaction->setTestMode($config['test_mode']);
-            $transaction->money->setCurrency($this->getCurrency($config));
-            $transaction->setLanguage($this->getLanguage($config));
-            $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
-            $transaction->setReturnUrl(route($config['urls']['return']['name'], [], true));
+            $operation->setTestMode($config['test_mode']);
+            $operation->money->setCurrency($this->getCurrency($config));
+            $operation->setLanguage($this->getLanguage($config));
+            $operation->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $operation->setReturnUrl(route($config['urls']['return']['name'], [], true));
 
-            return new Authorization($transaction);
+            return new Authorization($operation);
         });
 
         $this->app->alias(Authorization::class, 'bepaid.authorization');
@@ -175,20 +175,20 @@ class BePaidServiceProvider extends ServiceProvider
         $this->app->bind(Product::class, function (Application $app) {
             $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-            $transaction = new BePaidProduct;
+            $operation = new BePaidProduct;
 
-            $transaction->setTestMode($config['test_mode']);
-            $transaction->money->setCurrency($this->getCurrency($config));
-            $transaction->setLanguage($this->getLanguage($config));
-            $transaction->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
-            $transaction->setSuccessUrl(route($config['urls']['success']['name'], [], true));
-            $transaction->setFailUrl(route($config['urls']['fail']['name'], [], true));
-            $transaction->setReturnUrl(route($config['urls']['return']['name'], [], true));
-            $transaction->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
+            $operation->setTestMode($config['test_mode']);
+            $operation->money->setCurrency($this->getCurrency($config));
+            $operation->setLanguage($this->getLanguage($config));
+            $operation->setNotificationUrl(route($config['urls']['notifications']['name'], [], true));
+            $operation->setSuccessUrl(route($config['urls']['success']['name'], [], true));
+            $operation->setFailUrl(route($config['urls']['fail']['name'], [], true));
+            $operation->setReturnUrl(route($config['urls']['return']['name'], [], true));
+            $operation->setExpiredAt(now()->addMinutes($config['expired_at'])->toIso8601String());
 
-            $transaction->setVisible($config['visible']);
+            $operation->setVisible($config['visible']);
 
-            return new Product($transaction);
+            return new Product($operation);
         });
 
         $this->app->alias(Product::class, 'bepaid.product');
@@ -209,8 +209,11 @@ class BePaidServiceProvider extends ServiceProvider
 
     private function bindRefund(): void
     {
-        $this->app->bind(Refund::class, function () {
+        $this->app->bind(Refund::class, function ($app) {
+            $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
+
             $operation = new RefundOperation();
+            $operation->money->setCurrency($config['currency']);
 
             return new Refund($operation);
         });

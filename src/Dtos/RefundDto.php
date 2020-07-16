@@ -30,7 +30,7 @@ class RefundDto extends BaseDto
      */
     public $parent_uid;
     /**
-     * @var int
+     * @var \JackWalterSmith\BePaidLaravel\Types\MoneyType
      */
-    public $amount;
+    public $money;
 }

@@ -16,15 +16,15 @@ namespace JackWalterSmith\BePaidLaravel\Types;
 
 class CardType
 {
-    public $cardNumber;
-    public $cardHolder;
-    public $cardExpMonth;
-    public $cardExpYear;
-    public $cardCvc;
-    public $first_1; // TODO: change to valid method
-    public $last_4; // TODO: change to valid method
+    public $card_number;
+    public $card_holder;
+    public $card_exp_month;
+    public $card_exp_year;
+    public $card_cvc;
+    public $first_one;
+    public $last_four;
     public $brand;
-    public $cardToken = null;
-    public $cardSkipThreedSecure = false; // TODO: change to valid method
-    public $isEncrypted = false;  // TODO: change to valid method
+    public $card_token = null;
+    public $card_skip_three_d_secure = false;
+    public $encrypted = false;
 }
