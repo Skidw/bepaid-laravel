@@ -163,8 +163,13 @@ class BePaidServiceProvider extends ServiceProvider
 
     private function bindCardToken(): void
     {
-        $this->app->bind(CardToken::class, function () {
-            return new BePaidCardToken();
+        $this->app->bind(CardToken::class, function ($app) {
+            $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
+
+            $operation = new BePaidCardToken();
+            $operation->setLanguage($this->getLanguage($config));
+
+            return new CardToken($operation);
         });
 
         $this->app->alias(CardToken::class, 'bepaid.cardToken');

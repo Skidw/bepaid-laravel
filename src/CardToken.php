@@ -22,11 +22,11 @@ use JackWalterSmith\BePaidLaravel\Dtos\CardTokenDto;
 class CardToken extends GatewayAbstract
 {
     /** @var \BeGateway\CardToken */
-    public $token;
+    public $operation;
 
     public function __construct(BePaidCardToken $token)
     {
-        $this->token = $token;
+        $this->operation = $token;
     }
 
     /**

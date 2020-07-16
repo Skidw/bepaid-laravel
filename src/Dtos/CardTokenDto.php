@@ -14,7 +14,7 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-class CardTokenDto
+class CardTokenDto extends BaseDto
 {
     /** @var \JackWalterSmith\BePaidLaravel\Types\CardType */
     public $card;
