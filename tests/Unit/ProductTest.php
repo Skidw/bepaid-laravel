@@ -17,8 +17,7 @@ namespace JackWalterSmith\BePaidLaravel\Tests\Unit;
 use BeGateway\GatewayTransport;
 use JackWalterSmith\BePaidLaravel\Dtos\ProductDto;
 use JackWalterSmith\BePaidLaravel\Product;
-use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 
 class ProductTest extends TestCase
 {
@@ -73,18 +72,6 @@ class ProductTest extends TestCase
         ])->makePartial();
 
         $this->product = $this->app->get('bepaid.product');
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [BePaidServiceProvider::class];
-    }
-
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
     }
 
     public function testLoadedClass()

@@ -18,8 +18,7 @@ use BeGateway\GatewayTransport;
 use BeGateway\PaymentMethod\CreditCard;
 use JackWalterSmith\BePaidLaravel\Dtos\PaymentTokenDto;
 use JackWalterSmith\BePaidLaravel\PaymentToken;
-use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 
 class PaymentTokenTest extends TestCase
 {
@@ -72,18 +71,6 @@ class PaymentTokenTest extends TestCase
             'expired_at' => date(DATE_ISO8601, strtotime('+2 days')),
             'attempts' => 4,
         ];
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [BePaidServiceProvider::class];
-    }
-
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
     }
 
     public function testLoadedClass()

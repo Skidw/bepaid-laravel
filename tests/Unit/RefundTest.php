@@ -17,8 +17,7 @@ namespace JackWalterSmith\BePaidLaravel\Tests\Unit;
 use BeGateway\GatewayTransport;
 use JackWalterSmith\BePaidLaravel\Dtos\PaymentDto;
 use JackWalterSmith\BePaidLaravel\Dtos\RefundDto;
-use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 
 class RefundTest extends TestCase
 {
@@ -70,18 +69,6 @@ class RefundTest extends TestCase
 
         $this->refund = $this->app->get('bepaid.refund');
         $this->payment = $this->app->get('bepaid.payment');
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [BePaidServiceProvider::class];
-    }
-
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
     }
 
     public function testFill()

@@ -16,9 +16,7 @@ namespace JackWalterSmith\BePaidLaravel\Tests\Unit;
 
 use BeGateway\GatewayTransport;
 use JackWalterSmith\BePaidLaravel\Dtos\AuthorizationDto;
-use JackWalterSmith\BePaidLaravel\Dtos\PaymentDto;
-use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 
 class AuthorizationTest extends TestCase
 {
@@ -158,18 +156,6 @@ class AuthorizationTest extends TestCase
               }
             }',
         ])->makePartial();
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [BePaidServiceProvider::class];
-    }
-
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
     }
 
     public function testLoadedClass()

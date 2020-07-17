@@ -16,8 +16,7 @@ namespace JackWalterSmith\BePaidLaravel\Tests\Unit;
 
 use BeGateway\GatewayTransport;
 use JackWalterSmith\BePaidLaravel\Dtos\CardTokenDto;
-use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 
 class CardTokenTest extends TestCase
 {
@@ -55,18 +54,6 @@ class CardTokenTest extends TestCase
               "exp_year":2030
             }',
         ])->makePartial();
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [BePaidServiceProvider::class];
-    }
-
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
     }
 
     public function testFill()
