@@ -36,13 +36,6 @@ class QueryTest extends TestCase
         $this->payment = $this->app->get('bepaid.payment');
     }
 
-    protected function tearDown(): void
-    {
-        \Mockery::close();
-
-        parent::tearDown();
-    }
-
     public function testFillQueryByPaymentToken()
     {
         $token = 'test_token_12345';
