@@ -22,6 +22,9 @@ use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
     PaymentDto,
     PaymentTokenDto,
     ProductDto,
+    QueryByPaymentTokenDto,
+    QueryByTrackingIdDto,
+    QueryByUidDto,
     RefundDto
 };
 
@@ -44,8 +47,8 @@ abstract class GatewayAbstract implements IGateway
     }
 
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
-     * @param null                                                                          $object
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto|QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto $data
+     * @param null                                                                                                                                    $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
      */

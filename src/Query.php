@@ -12,34 +12,55 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel;
 
+use BeGateway\{QueryByPaymentToken, QueryByTrackingId, QueryByUid};
+use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
+use JackWalterSmith\BePaidLaravel\Dtos\{QueryByPaymentTokenDto, QueryByTrackingIdDto, QueryByUidDto};
 
-use BeGateway\{
-    QueryByPaymentToken,
-    QueryByTrackingId,
-    QueryByUid
-};
-
-class Query
+class Query extends GatewayAbstract
 {
     /** @var \BeGateway\QueryByPaymentToken */
-    public $queryByPaymentToken;
-
+    private $queryByPaymentToken;
     /** @var \BeGateway\QueryByTrackingId */
-    public $queryByTrackingId;
-
+    private $queryByTrackingId;
     /** @var \BeGateway\QueryByUid */
-    public $queryByUuid;
+    private $queryByUuid;
+
+    /** @var QueryByPaymentToken|QueryByTrackingId|QueryByUid */
+    public $operation;
 
     public function __construct(
         QueryByPaymentToken $queryByPaymentToken,
         QueryByTrackingId $queryByTrackingId,
         QueryByUid $queryByUid
-    ) {
+    )
+    {
         $this->queryByPaymentToken = $queryByPaymentToken;
         $this->queryByTrackingId = $queryByTrackingId;
         $this->queryByUuid = $queryByUid;
+    }
+
+    /**
+     * @param QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto          $data
+     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
+     *
+     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     */
+    public function fill($data, $object = null): IGateway
+    {
+        switch (get_class($data)) {
+            case QueryByPaymentTokenDto::class:
+                $this->operation = $this->queryByPaymentToken;
+                break;
+            case QueryByTrackingIdDto::class:
+                $this->operation = $this->queryByTrackingId;
+                break;
+            case QueryByUidDto::class:
+                $this->operation = $this->queryByUuid;
+                break;
+        }
+
+        return parent::fill($data, $object);
     }
 }
