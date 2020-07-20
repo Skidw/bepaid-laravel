@@ -60,6 +60,7 @@ class BePaidServiceProvider extends ServiceProvider
         $this->bindProduct();
         $this->bindQuery();
         $this->bindRefund();
+        $this->bindWebhook();
     }
 
     /**
