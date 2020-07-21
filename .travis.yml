@@ -7,51 +7,32 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+env:
+  global:
+    - COVERAGE=0
+
 matrix:
   include:
-    - php: hhvm-3.18
-      sudo: required
-      dist: trusty
-      env: LARAVEL='5.4.*' TESTBENCH='3.4.*'
-      group: edge
     - php: 7.1
-      env: LARAVEL='5.4.*' TESTBENCH='3.4.*'
+      env: COVERAGE=1 LARAVEL='5.7.*' TESTBENCH='3.7.*'
     - php: 7.1
-      env: LARAVEL='5.5.*' TESTBENCH='3.5.*'
-    - php: 7.1
-      env: LARAVEL='5.6.*' TESTBENCH='3.6.*'
-    - php: 7.1
-      env: LARAVEL='5.7.*' TESTBENCH='3.7.*'
-    - php: 7.1
-      env: LARAVEL='5.8.*' TESTBENCH='3.8.*'
+      env: COVERAGE=1 LARAVEL='5.8.*' TESTBENCH='3.8.*'
     - php: 7.2
-      env: LARAVEL='5.4.*' TESTBENCH='3.4.*'
+      env: COVERAGE=1 LARAVEL='5.7.*' TESTBENCH='3.7.*'
     - php: 7.2
-      env: LARAVEL='5.5.*' TESTBENCH='3.5.*'
+      env: COVERAGE=1 LARAVEL='5.8.*' TESTBENCH='3.8.*'
     - php: 7.2
-      env: LARAVEL='5.6.*' TESTBENCH='3.6.*'
+      env: COVERAGE=1 LARAVEL='6.*' TESTBENCH='4.*'
     - php: 7.2
-      env: LARAVEL='5.7.*' TESTBENCH='3.7.*'
-    - php: 7.2
-      env: LARAVEL='5.8.*' TESTBENCH='3.8.*'
-    - php: 7.2
-      env: LARAVEL='6.*' TESTBENCH='4.*'
-    - php: 7.2
-      env: LARAVEL='7.*' TESTBENCH='5.*'
+      env: COVERAGE=1 LARAVEL='7.*' TESTBENCH='5.*'
     - php: 7.3
-      env: LARAVEL='5.4.*' TESTBENCH='3.4.*'
+      env: COVERAGE=1 LARAVEL='5.7.*' TESTBENCH='3.7.*'
     - php: 7.3
-      env: LARAVEL='5.5.*' TESTBENCH='3.5.*'
+      env: COVERAGE=1 LARAVEL='5.8.*' TESTBENCH='3.8.*'
     - php: 7.3
-      env: LARAVEL='5.6.*' TESTBENCH='3.6.*'
+      env: COVERAGE=1 LARAVEL='6.*' TESTBENCH='4.*'
     - php: 7.3
-      env: LARAVEL='5.7.*' TESTBENCH='3.7.*'
-    - php: 7.3
-      env: LARAVEL='5.8.*' TESTBENCH='3.8.*'
-    - php: 7.3
-      env: LARAVEL='6.*' TESTBENCH='4.*'
-    - php: 7.3
-      env: LARAVEL='7.*' TESTBENCH='5.*'
+      env: COVERAGE=1 LARAVEL='7.*' TESTBENCH='5.*'
   fast_finish: true
 
 before_install:
@@ -64,3 +45,6 @@ install:
 
 script:
   - composer test:ci
+
+after_success:
+  - if [[ $COVERAGE = 1 ]]; then bash <(curl -s https://codecov.io/bash); fi
