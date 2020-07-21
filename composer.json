@@ -50,10 +50,10 @@
         "Product": "JackWalterSmith\\BePaidLaravel\\Facades\\Product",
         "Query": "JackWalterSmith\\BePaidLaravel\\Facades\\Query",
         "Refund": "JackWalterSmith\\BePaidLaravel\\Facades\\Refund"
-      },
-      "branch-alias": {
-        "dev-master": "1.x"
       }
+    },
+    "branch-alias": {
+      "dev-master": "1.0.x"
     }
   },
   "scripts": {

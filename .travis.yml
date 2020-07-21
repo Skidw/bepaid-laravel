@@ -36,7 +36,7 @@ matrix:
   fast_finish: true
 
 before_install:
-  - travis_retry composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+  - cp phpunit.xml.dist phpunit.xml
   - travis_retry composer require "laravel/framework:${LARAVEL}" --no-interaction --no-update
   - travis_retry composer require --dev "orchestra/testbench:${TESTBENCH}" --no-interaction --no-update
 
