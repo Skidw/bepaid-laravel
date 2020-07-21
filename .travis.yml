@@ -38,6 +38,7 @@ matrix:
 
 before_install:
   - cp phpunit.xml.dist phpunit.xml
+  - travis_retry composer self-update
   - travis_retry composer require "laravel/framework:${LARAVEL}" --no-interaction --no-update
   - travis_retry composer require --dev "orchestra/testbench:${TESTBENCH}" --no-interaction --no-update
 
