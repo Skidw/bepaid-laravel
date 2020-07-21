@@ -55,8 +55,6 @@ matrix:
   fast_finish: true
 
 before_install:
-  - git remote set-url website git@github.com:Jack-Walter-Smith/begateway-api-php.git
-  - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
   - travis_retry composer self-update
   - travis_retry composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
 
