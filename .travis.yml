@@ -56,9 +56,9 @@ matrix:
 
 before_install:
   - travis_retry composer self-update
-  - composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
-  - composer require-dev "orchestra/testbench:${LARAVEL}" --no-interaction --no-update
-  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+  - travis_retry composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+  - travis_retry composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
+  - travis_retry composer require-dev "orchestra/testbench:${TESTBENCH}" --no-interaction --no-update
 
 install:
   - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction --no-suggest
