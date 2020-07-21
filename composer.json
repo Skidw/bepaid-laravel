@@ -54,5 +54,9 @@
         "dev-master": "1.x"
       }
     }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit --colors=always",
+    "test:ci": "composer test -- --verbose --coverage-text --coverage-clover=coverage.xml"
   }
 }
