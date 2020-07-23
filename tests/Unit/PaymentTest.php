@@ -22,7 +22,6 @@ class PaymentTest extends TestCase
 {
     /** @var \JackWalterSmith\BePaidLaravel\Payment */
     private $payment;
-
     private $data = [
         'money' => [
             'amount' => 333.33,
@@ -53,6 +52,62 @@ class PaymentTest extends TestCase
             'receipt' => ['Some text'],
         ],
     ];
+
+    public function testLoadedClass()
+    {
+        $config = $this->app['config']->get('bepaid');
+
+        /** @var \Illuminate\Routing\UrlGenerator $router */
+        $router = $this->app['url'];
+
+        $this->assertEquals($config['test_mode'], $this->payment->operation->getTestMode());
+        $this->assertEquals($config['currency'], $this->payment->operation->money->getCurrency());
+        $this->assertEquals($config['lang'], $this->payment->operation->getLanguage());
+        $this->assertEquals($router->route($config['urls']['notifications']['name'], [], true), $this->payment->operation->getNotificationUrl());
+    }
+
+    public function testFill()
+    {
+        $paymentDto = new PaymentDto($this->data);
+
+        $result = $this->payment->fill($paymentDto);
+
+        $this->assertEquals($this->data['description'], $result->operation->getDescription());
+        $this->assertEquals($this->data['tracking_id'], $result->operation->getTrackingId());
+        $this->assertEquals($this->data['money']['amount'], $result->operation->money->getAmount());
+        $this->assertEquals($this->data['additional_data']['receipt'], $result->operation->additional_data->getReceipt());
+        $this->assertSameSize($this->data['customer'], (array)$result->operation->customer);
+
+        foreach ($result->operation->customer as $key => $value) {
+            $this->assertEquals($this->data['customer'][$key], $value);
+        }
+
+        foreach ($result->operation->card as $key => $value) {
+            $this->assertEquals($this->data['card'][$key], $value);
+        }
+    }
+
+    public function testSubmit()
+    {
+        $paymentDto = new PaymentDto($this->data);
+
+        $response = $this->payment->submit($paymentDto);
+        $transaction = $response->getResponse()->transaction;
+
+        $this->assertTrue($response->isValid());
+        $this->assertTrue($response->isSuccess());
+        $this->assertFalse($response->isError());
+
+        $this->assertEquals($this->data['tracking_id'], $transaction->tracking_id);
+        $this->assertEquals($this->data['description'], $transaction->description);
+        $this->assertEquals($this->data['additional_data']['receipt'], $transaction->additional_data->receipt_text);
+
+        foreach ($transaction->customer as $key => $value) {
+            if (isset($this->data['customer'][$key])) {
+                $this->assertEquals($this->data['customer'][$key], $transaction->customer->{$key});
+            }
+        }
+    }
 
     protected function setUp(): void
     {
@@ -156,61 +211,5 @@ class PaymentTest extends TestCase
               }
             }',
         ])->makePartial();
-    }
-
-    public function testLoadedClass()
-    {
-        $config = $this->app['config']->get('bepaid');
-
-        /** @var \Illuminate\Routing\UrlGenerator $router */
-        $router = $this->app['url'];
-
-        $this->assertEquals($config['test_mode'], $this->payment->operation->getTestMode());
-        $this->assertEquals($config['currency'], $this->payment->operation->money->getCurrency());
-        $this->assertEquals($config['lang'], $this->payment->operation->getLanguage());
-        $this->assertEquals($router->route($config['urls']['notifications']['name'], [], true), $this->payment->operation->getNotificationUrl());
-    }
-
-    public function testFill()
-    {
-        $paymentDto = new PaymentDto($this->data);
-
-        $result = $this->payment->fill($paymentDto);
-
-        $this->assertEquals($this->data['description'], $result->operation->getDescription());
-        $this->assertEquals($this->data['tracking_id'], $result->operation->getTrackingId());
-        $this->assertEquals($this->data['money']['amount'], $result->operation->money->getAmount());
-        $this->assertEquals($this->data['additional_data']['receipt'], $result->operation->additional_data->getReceipt());
-        $this->assertSameSize($this->data['customer'], (array)$result->operation->customer);
-
-        foreach ($result->operation->customer as $key => $value) {
-            $this->assertEquals($this->data['customer'][$key], $value);
-        }
-
-        foreach ($result->operation->card as $key => $value) {
-            $this->assertEquals($this->data['card'][$key], $value);
-        }
-    }
-
-    public function testSubmit()
-    {
-        $paymentDto = new PaymentDto($this->data);
-
-        $response = $this->payment->submit($paymentDto);
-        $transaction = $response->getResponse()->transaction;
-
-        $this->assertTrue($response->isValid());
-        $this->assertTrue($response->isSuccess());
-        $this->assertFalse($response->isError());
-
-        $this->assertEquals($this->data['tracking_id'], $transaction->tracking_id);
-        $this->assertEquals($this->data['description'], $transaction->description);
-        $this->assertEquals($this->data['additional_data']['receipt'], $transaction->additional_data->receipt_text);
-
-        foreach ($transaction->customer as $key => $value) {
-            if (isset($this->data['customer'][$key])) {
-                $this->assertEquals($this->data['customer'][$key], $transaction->customer->{$key});
-            }
-        }
     }
 }

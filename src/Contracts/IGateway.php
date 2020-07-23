@@ -17,16 +17,16 @@ namespace JackWalterSmith\BePaidLaravel\Contracts;
 use BeGateway\{AuthorizationOperation, CardToken, GetPaymentToken, PaymentOperation, ResponseBase};
 use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
     CardTokenDto,
+    CreditDto,
     PaymentDto,
     PaymentTokenDto,
     ProductDto,
-    RefundDto
-};
+    RefundDto};
 
 interface IGateway
 {
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto|CreditDto $data
      *
      * @return \BeGateway\ResponseBase
      */

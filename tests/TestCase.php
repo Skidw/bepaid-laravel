@@ -15,7 +15,7 @@
 namespace JackWalterSmith\BePaidLaravel\Tests;
 
 use JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider;
-use \Orchestra\Testbench\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {

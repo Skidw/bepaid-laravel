@@ -53,7 +53,7 @@ class Refund extends GatewayAbstract
     }
 
     /**
-     * @param RefundDto $data
+     * @param RefundDto                                                                                     $data
      * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product|\BeGateway\RefundOperation $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway

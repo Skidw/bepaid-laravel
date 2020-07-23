@@ -12,11 +12,9 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-
 
 class Payment extends Facade
 {

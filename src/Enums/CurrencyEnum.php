@@ -12,7 +12,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace JackWalterSmith\BePaidLaravel\Enums;
 
 use MyCLabs\Enum\Enum;

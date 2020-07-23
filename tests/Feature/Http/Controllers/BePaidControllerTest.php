@@ -3,15 +3,14 @@
 /**
  * This file is part of bepaid-laravel package.
  *
- * @package BePaid Laravel
+ * @package  BePaid Laravel
  * @category BePaid Laravel
- * @author Nikita Kim <n.a.kim@yandex.ru>
- * @link https://github.com/Jack-Walter-Smith/bepaid-laravel
+ * @author   Nikita Kim <n.a.kim@yandex.ru>
+ * @link     https://github.com/Jack-Walter-Smith/bepaid-laravel
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 
 namespace JackWalterSmith\BePaidLaravel\Tests\Feature\Http\Controllers;
 
@@ -23,22 +22,7 @@ class BePaidControllerTest extends TestCase
 {
     /** @var array */
     private $config;
-
     private $basicAuth;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->config = $this->app['config']->get('bepaid');
-
-        $this->basicAuth = [
-            'PHP_AUTH_USER' => $this->config['shop_id'],
-            'PHP_AUTH_PW' => $this->config['shop_key'],
-        ];
-
-        Event::fake();
-    }
 
     public function testNotificationPayment()
     {
@@ -341,5 +325,19 @@ class BePaidControllerTest extends TestCase
 
         $this->assertTrue($response->isOk());
         Event::assertDispatched(BePaidSubscriber::EVENT_DECLINE_URL);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->config = $this->app['config']->get('bepaid');
+
+        $this->basicAuth = [
+            'PHP_AUTH_USER' => $this->config['shop_id'],
+            'PHP_AUTH_PW' => $this->config['shop_key'],
+        ];
+
+        Event::fake();
     }
 }

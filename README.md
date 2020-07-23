@@ -70,7 +70,7 @@ class PaymentService
 }
 ```
 
-Below is the table which illustrates which object in `BeGateway` equals to object in `BePaid Laravel`.
+The table bellow illustrates which object in `BeGateway` equals to object in `BePaid Laravel`.
 All of these objects in `BePaid Laravel` package, that listed below, have public field `$operation`,
 which gives you access to original object.
 This is in case if package features are not enough to reach goal.

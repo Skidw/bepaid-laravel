@@ -16,10 +16,10 @@ namespace JackWalterSmith\BePaidLaravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Product extends Facade
+class Credit extends Facade
 {
-    protected static function getFacadeAccessor(): string
+    protected static function getFacadeAccessor()
     {
-        return 'bepaid.product';
+        return 'bepaid.credit';
     }
 }

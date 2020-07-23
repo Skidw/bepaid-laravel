@@ -45,35 +45,6 @@ class ProductTest extends TestCase
         ],
     ];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        \Mockery::mock('alias:' . GatewayTransport::class, [
-            'submit' => '{
-              "id":"prd_770aa9c072595c80",
-              "name":"test",
-              "description":"test description",
-              "currency":"BYN",
-              "amount":11112,
-              "quantity":5,
-              "infinite":false,
-              "language":"ru",
-              "transaction_type":"payment",
-              "created_at":"2020-07-14T09:18:15.032Z",
-              "updated_at":"2020-07-14T09:18:15.032Z",
-              "test":true,
-              "additional_data":{
-                "receipt_text":"Some dummy text",
-                "contract":null,
-                "meta":null
-              }
-            }',
-        ])->makePartial();
-
-        $this->product = $this->app->get('bepaid.product');
-    }
-
     public function testLoadedClass()
     {
         $config = $this->app['config']->get('bepaid');
@@ -180,5 +151,34 @@ class ProductTest extends TestCase
         $this->assertEquals($result->test, $this->product->operation->getTestMode());
         $this->assertEquals($result->currency, $this->product->operation->money->getCurrency());
         $this->assertEquals($result->amount, $this->product->operation->money->getCents());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        \Mockery::mock('alias:' . GatewayTransport::class, [
+            'submit' => '{
+              "id":"prd_770aa9c072595c80",
+              "name":"test",
+              "description":"test description",
+              "currency":"BYN",
+              "amount":11112,
+              "quantity":5,
+              "infinite":false,
+              "language":"ru",
+              "transaction_type":"payment",
+              "created_at":"2020-07-14T09:18:15.032Z",
+              "updated_at":"2020-07-14T09:18:15.032Z",
+              "test":true,
+              "additional_data":{
+                "receipt_text":"Some dummy text",
+                "contract":null,
+                "meta":null
+              }
+            }',
+        ])->makePartial();
+
+        $this->product = $this->app->get('bepaid.product');
     }
 }

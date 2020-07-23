@@ -21,7 +21,6 @@ abstract class BePaidSubscriber
 {
     const EVENT_NOTIFICATION_SUCCESS = 'bepaid.event.notification.success';
     const EVENT_NOTIFICATION_FAIL = 'bepaid.event.notification.fail';
-
     const EVENT_SUCCESS_URL = 'bepaid.event.success';
     const EVENT_FAIL_URL = 'bepaid.event.fail';
     const EVENT_RETURN_URL = 'bepaid.event.return';

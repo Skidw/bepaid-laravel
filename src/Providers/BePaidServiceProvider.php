@@ -15,7 +15,9 @@
 namespace JackWalterSmith\BePaidLaravel\Providers;
 
 use BeGateway\{AuthorizationOperation,
+    CaptureOperation,
     CardToken as BePaidCardToken,
+    CreditOperation,
     GetPaymentToken,
     PaymentOperation,
     Product as BePaidProduct,
@@ -24,12 +26,14 @@ use BeGateway\{AuthorizationOperation,
     QueryByUid,
     RefundOperation,
     Settings,
-    Webhook
-};
+    VoidOperation,
+    Webhook};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JackWalterSmith\BePaidLaravel\{Authorization,
     CardToken,
+    ChildTransaction,
+    Credit,
     Enums\CurrencyEnum,
     Enums\LanguageEnum,
     Http\Middleware\InjectBasicAuth,
@@ -61,35 +65,10 @@ class BePaidServiceProvider extends ServiceProvider
         $this->bindQuery();
         $this->bindRefund();
         $this->bindWebhook();
+        $this->bindCredit();
+        $this->bindChildTransaction();
 
         $this->registerMiddleware();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function boot(): void
-    {
-        $this->bootConfig();
-        $this->bootRoutes();
-    }
-
-    /**
-     * Register config.
-     */
-    private function bootConfig(): void
-    {
-        $this->publishes([
-            self::CONFIG_PATH => config_path('bepaid.php'),
-        ], 'bepaid');
-    }
-
-    /**
-     * Register routes.
-     */
-    private function bootRoutes(): void
-    {
-        $this->loadRoutesFrom(self::ROUTES_PATH);
     }
 
     private function setUp(): void
@@ -128,6 +107,26 @@ class BePaidServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(PaymentToken::class, 'bepaid.paymentToken');
+    }
+
+    private function getCurrency(?array $conf = null): string
+    {
+        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
+
+        $formattedCurrency = strtoupper($config['currency']);
+        $fallbackFormattedCurrency = strtoupper($config['fallback_currency']);
+
+        return CurrencyEnum::isValid($formattedCurrency) ? new CurrencyEnum($formattedCurrency) : new CurrencyEnum($fallbackFormattedCurrency);
+    }
+
+    private function getLanguage(?array $conf = null): string
+    {
+        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
+
+        $formattedLanguage = strtolower($config['lang']);
+        $fallbackFormattedLanguage = strtolower($config['fallback_lang']);
+
+        return LanguageEnum::isValid($formattedLanguage) ? new LanguageEnum($formattedLanguage) : new LanguageEnum($fallbackFormattedLanguage);
     }
 
     private function bindPayment(): void
@@ -241,28 +240,73 @@ class BePaidServiceProvider extends ServiceProvider
         $this->app->alias(Webhook::class, 'bepaid.webhook');
     }
 
-    private function getCurrency(?array $conf = null): string
+    private function bindCredit(): void
     {
-        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
+        $this->app->bind(Credit::class, function ($app) {
+            $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-        $formattedCurrency = strtoupper($config['currency']);
-        $fallbackFormattedCurrency = strtoupper($config['fallback_currency']);
+            $credit = new CreditOperation();
+            $credit->setLanguage($this->getLanguage($config));
+            $credit->money->setCurrency($this->getCurrency($config));
 
-        return CurrencyEnum::isValid($formattedCurrency) ? new CurrencyEnum($formattedCurrency) : new CurrencyEnum($fallbackFormattedCurrency);
+            return new Credit($credit);
+        });
+
+        $this->app->alias(Credit::class, 'bepaid.credit');
     }
 
-    private function getLanguage(?array $conf = null): string
+    private function bindChildTransaction(): void
     {
-        $config = $conf ?? (config('bepaid') ?? require self::CONFIG_PATH);
+        $this->app->bind(ChildTransaction::class, function ($app) {
+            $config = $app['config']->get('bepaid') ?? require self::CONFIG_PATH;
 
-        $formattedLanguage = strtolower($config['lang']);
-        $fallbackFormattedLanguage = strtolower($config['fallback_lang']);
+            $capture = new CaptureOperation();
+            $void = new VoidOperation();
 
-        return LanguageEnum::isValid($formattedLanguage) ? new LanguageEnum($formattedLanguage) : new LanguageEnum($fallbackFormattedLanguage);
+            $currency = $this->getCurrency($config);
+            $lang = $this->getLanguage($config);
+
+            $capture->money->setCurrency($currency);
+            $capture->setLanguage($lang);
+
+            $void->money->setCurrency($currency);
+            $void->setLanguage($lang);
+
+            return new ChildTransaction($capture, $void);
+        });
+
+        $this->app->bind(ChildTransaction::class, 'bepaid.childTransaction');
     }
 
     private function registerMiddleware(): void
     {
         $this->app['router']->aliasMiddleware('bepaid.inject_basic_auth', InjectBasicAuth::class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        $this->bootConfig();
+        $this->bootRoutes();
+    }
+
+    /**
+     * Register config.
+     */
+    private function bootConfig(): void
+    {
+        $this->publishes([
+            self::CONFIG_PATH => config_path('bepaid.php'),
+        ], 'bepaid');
+    }
+
+    /**
+     * Register routes.
+     */
+    private function bootRoutes(): void
+    {
+        $this->loadRoutesFrom(self::ROUTES_PATH);
     }
 }

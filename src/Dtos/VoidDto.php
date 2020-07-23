@@ -14,18 +14,12 @@
 
 namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-class AuthorizationDto extends BaseDto
+use JackWalterSmith\BePaidLaravel\Types\MoneyType;
+
+class VoidDto extends BaseDto
 {
-    /** @var \JackWalterSmith\BePaidLaravel\Types\CustomerType */
-    public $customer;
-    /** @var \JackWalterSmith\BePaidLaravel\Types\CardType */
-    public $card;
-    /** @var \JackWalterSmith\BePaidLaravel\Types\MoneyType */
+    /** @var MoneyType */
     public $money;
-    /** @var \JackWalterSmith\BePaidLaravel\Types\AdditionalDataType */
-    public $additional_data;
     /** @var string */
-    public $description;
-    /** @var string */
-    public $tracking_id;
+    public $parent_uid;
 }

@@ -3,10 +3,10 @@
 /**
  * This file is part of bepaid-laravel package.
  *
- * @package BePaid Laravel
+ * @package  BePaid Laravel
  * @category BePaid Laravel
- * @author Nikita Kim <n.a.kim@yandex.ru>
- * @link https://github.com/Jack-Walter-Smith/bepaid-laravel
+ * @author   Nikita Kim <n.a.kim@yandex.ru>
+ * @link     https://github.com/Jack-Walter-Smith/bepaid-laravel
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,15 +20,6 @@ use JackWalterSmith\BePaidLaravel\Tests\TestCase;
 class InjectBasicAuthTest extends TestCase
 {
     private $config;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->config = $this->app['config']->get('bepaid');
-
-        Event::fake();
-    }
 
     public function testHandleServerVars()
     {
@@ -83,9 +74,9 @@ class InjectBasicAuthTest extends TestCase
             'PHP_AUTH_PW' => $this->config['shop_key'],
         ]);
 
-        $this->assertTrue(! empty($_SERVER['PHP_AUTH_USER']));
-        $this->assertTrue(! empty($_SERVER['PHP_AUTH_PW']));
-        $this->assertEquals((int) $this->config['shop_id'], $_SERVER['PHP_AUTH_USER']);
+        $this->assertTrue(!empty($_SERVER['PHP_AUTH_USER']));
+        $this->assertTrue(!empty($_SERVER['PHP_AUTH_PW']));
+        $this->assertEquals((int)$this->config['shop_id'], $_SERVER['PHP_AUTH_USER']);
         $this->assertEquals($this->config['shop_key'], $_SERVER['PHP_AUTH_PW']);
     }
 
@@ -143,7 +134,16 @@ class InjectBasicAuthTest extends TestCase
             'Authorization' => $auth,
         ]);
 
-        $this->assertTrue(! empty($_SERVER['HTTP_AUTHORIZATION']));
+        $this->assertTrue(!empty($_SERVER['HTTP_AUTHORIZATION']));
         $this->assertEquals($auth, $_SERVER['HTTP_AUTHORIZATION']);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->config = $this->app['config']->get('bepaid');
+
+        Event::fake();
     }
 }

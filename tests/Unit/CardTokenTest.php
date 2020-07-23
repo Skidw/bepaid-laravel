@@ -32,30 +32,6 @@ class CardTokenTest extends TestCase
         ],
     ];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->token = $this->app->get('bepaid.cardToken');
-
-        \Mockery::mock('alias:' . GatewayTransport::class, [
-            'submit' => '{
-              "holder":"JOHN DOE",
-              "stamp":"b3839d334ba40e89168d60cd9f9d1390aee3fe67dd4d5c41adbf3998043eaef8",
-              "brand":"visa",
-              "last_4":"0000",
-              "first_1":"4",
-              "token":"54bf7b1c-ba2f-4d18-ba4d-156a0dae5c68",
-              "product":"F",
-              "bin":"420000",
-              "issuer_country":"US",
-              "issuer_name":"VISA Demo Bank",
-              "exp_month":1,
-              "exp_year":2030
-            }',
-        ])->makePartial();
-    }
-
     public function testFill()
     {
         $cardTokenDto = new CardTokenDto($this->data);
@@ -101,5 +77,29 @@ class CardTokenTest extends TestCase
         $this->assertEquals($lastFour, $card->getLastFour());
         $this->assertNotNull($card->getBrand());
         $this->assertNotNull($card->getCardToken());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->token = $this->app->get('bepaid.cardToken');
+
+        \Mockery::mock('alias:' . GatewayTransport::class, [
+            'submit' => '{
+              "holder":"JOHN DOE",
+              "stamp":"b3839d334ba40e89168d60cd9f9d1390aee3fe67dd4d5c41adbf3998043eaef8",
+              "brand":"visa",
+              "last_4":"0000",
+              "first_1":"4",
+              "token":"54bf7b1c-ba2f-4d18-ba4d-156a0dae5c68",
+              "product":"F",
+              "bin":"420000",
+              "issuer_country":"US",
+              "issuer_name":"VISA Demo Bank",
+              "exp_month":1,
+              "exp_year":2030
+            }',
+        ])->makePartial();
     }
 }

@@ -20,15 +20,14 @@ use JackWalterSmith\BePaidLaravel\Dtos\{QueryByPaymentTokenDto, QueryByTrackingI
 
 class Query extends GatewayAbstract
 {
+    /** @var QueryByPaymentToken|QueryByTrackingId|QueryByUid */
+    public $operation;
     /** @var \BeGateway\QueryByPaymentToken */
     private $queryByPaymentToken;
     /** @var \BeGateway\QueryByTrackingId */
     private $queryByTrackingId;
     /** @var \BeGateway\QueryByUid */
     private $queryByUuid;
-
-    /** @var QueryByPaymentToken|QueryByTrackingId|QueryByUid */
-    public $operation;
 
     public function __construct(
         QueryByPaymentToken $queryByPaymentToken,

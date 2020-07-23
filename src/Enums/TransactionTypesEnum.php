@@ -18,7 +18,7 @@ use MyCLabs\Enum\Enum;
 
 class TransactionTypesEnum extends Enum
 {
-    private const AUTHORIZATION =  'authorization';
-    private const PAYMENT =  'payment';
-    private const TOKENIZATION =  'tokenization';
+    private const AUTHORIZATION = 'authorization';
+    private const PAYMENT = 'payment';
+    private const TOKENIZATION = 'tokenization';
 }

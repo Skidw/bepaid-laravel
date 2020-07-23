@@ -27,52 +27,6 @@ class PaymentTokenTest extends TestCase
     /** @var */
     private $data = [];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        \Mockery::mock('alias:' . GatewayTransport::class, [
-            'submit' => '{
-              "checkout":{
-                "token":"2d579c5625da92b088f12d41c0c7548472e7a5f4477c4d579ca8976a53ecf6d2",
-                "redirect_url":"https:\/\/checkout.begateway.com\/v2\/checkout?token=2d579c5625da92b088f12d41c0c7548472e7a5f4477c4d579ca8976a53ecf6d2"
-              }
-            }',
-        ])->makePartial();
-
-        $this->paymentToken = $this->app->get('bepaid.paymentToken');
-
-        $this->data = [
-            'customer' => [
-                'ip' => '127.0.0.1',
-                'email' => 'test@example.com',
-                'first_name' => 'John',
-                'last_name' => 'Doe',
-                'address' => '4876 Gallegos Vista Apt. 382\nLake Christine, VA 92929',
-                'city' => 'Minsk',
-                'country' => 'BY',
-                'state' => 'Minsk',
-                'zip' => '220100',
-                'phone' => '+375291234567',
-                'birth_date' => '1970-01-01',
-            ],
-            'money' => [
-                'amount' => 222.22,
-            ],
-            'additional_data' => [
-                'receipt' => ['Some text'],
-            ],
-            'readonly' => ['first_name', 'last_name'],
-            'visible' => ['email'],
-            'payment_methods' => [new CreditCard()],
-            'description' => 'Dummy text',
-            'tracking_id' => 'test_tracking_id_1234',
-            'transaction_type' => 'payment',
-            'expired_at' => date(DATE_ISO8601, strtotime('+2 days')),
-            'attempts' => 4,
-        ];
-    }
-
     public function testLoadedClass()
     {
         $config = $this->app['config']->get('bepaid');
@@ -145,5 +99,51 @@ class PaymentTokenTest extends TestCase
         $this->assertFalse($response->isError());
         $this->assertIsString($response->getRedirectUrl());
         $this->assertIsString($response->getToken());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        \Mockery::mock('alias:' . GatewayTransport::class, [
+            'submit' => '{
+              "checkout":{
+                "token":"2d579c5625da92b088f12d41c0c7548472e7a5f4477c4d579ca8976a53ecf6d2",
+                "redirect_url":"https:\/\/checkout.begateway.com\/v2\/checkout?token=2d579c5625da92b088f12d41c0c7548472e7a5f4477c4d579ca8976a53ecf6d2"
+              }
+            }',
+        ])->makePartial();
+
+        $this->paymentToken = $this->app->get('bepaid.paymentToken');
+
+        $this->data = [
+            'customer' => [
+                'ip' => '127.0.0.1',
+                'email' => 'test@example.com',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'address' => '4876 Gallegos Vista Apt. 382\nLake Christine, VA 92929',
+                'city' => 'Minsk',
+                'country' => 'BY',
+                'state' => 'Minsk',
+                'zip' => '220100',
+                'phone' => '+375291234567',
+                'birth_date' => '1970-01-01',
+            ],
+            'money' => [
+                'amount' => 222.22,
+            ],
+            'additional_data' => [
+                'receipt' => ['Some text'],
+            ],
+            'readonly' => ['first_name', 'last_name'],
+            'visible' => ['email'],
+            'payment_methods' => [new CreditCard()],
+            'description' => 'Dummy text',
+            'tracking_id' => 'test_tracking_id_1234',
+            'transaction_type' => 'payment',
+            'expired_at' => date(DATE_ISO8601, strtotime('+2 days')),
+            'attempts' => 4,
+        ];
     }
 }

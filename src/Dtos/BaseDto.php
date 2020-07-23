@@ -50,7 +50,7 @@ abstract class BaseDto
             }
         }
 
-        if (! $object instanceof static) {
+        if (!$object instanceof static) {
             return $object;
         }
     }

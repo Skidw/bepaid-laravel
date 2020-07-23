@@ -18,15 +18,17 @@ use BeGateway\{AuthorizationOperation, CardToken, GetPaymentToken, PaymentOperat
 use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
 use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
+    CaptureDto,
     CardTokenDto,
+    CreditDto,
     PaymentDto,
     PaymentTokenDto,
     ProductDto,
     QueryByPaymentTokenDto,
     QueryByTrackingIdDto,
     QueryByUidDto,
-    RefundDto
-};
+    RefundDto,
+    VoidDto};
 
 abstract class GatewayAbstract implements IGateway
 {
@@ -34,7 +36,7 @@ abstract class GatewayAbstract implements IGateway
     public $operation;
 
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto $data
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto|QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto|CreditDto|VoidDto|CaptureDto $data
      *
      * @return \BeGateway\ResponseBase
      * @throws \Exception
@@ -47,8 +49,8 @@ abstract class GatewayAbstract implements IGateway
     }
 
     /**
-     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto|QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto $data
-     * @param null                                                                                                                                    $object
+     * @param AuthorizationDto|CardTokenDto|PaymentDto|PaymentTokenDto|ProductDto|RefundDto|QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto|CreditDto|VoidDto|CaptureDto $data
+     * @param null                                                                                                                                                                 $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
      */

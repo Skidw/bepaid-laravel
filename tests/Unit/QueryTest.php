@@ -27,15 +27,6 @@ class QueryTest extends TestCase
     /** @var \JackWalterSmith\BePaidLaravel\PaymentToken */
     private $paymentToken;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->query = $this->app->get('bepaid.query');
-        $this->paymentToken = $this->app->get('bepaid.paymentToken');
-        $this->payment = $this->app->get('bepaid.payment');
-    }
-
     public function testFillQueryByPaymentToken()
     {
         $token = 'test_token_12345';
@@ -314,12 +305,21 @@ class QueryTest extends TestCase
         $paymentResponse = $this->paymentToken->submit();
         $checkout = $paymentResponse->getResponse()->checkout;
 
-        $dto = new QueryByPaymentTokenDto((array) $checkout);
+        $dto = new QueryByPaymentTokenDto((array)$checkout);
 
         $result = $this->query->submit($dto);
         $queryCheckout = $result->getResponse()->checkout;
 
         $this->assertInstanceOf(ResponseCheckout::class, $result);
         $this->assertNotNull($queryCheckout);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->query = $this->app->get('bepaid.query');
+        $this->paymentToken = $this->app->get('bepaid.paymentToken');
+        $this->payment = $this->app->get('bepaid.payment');
     }
 }

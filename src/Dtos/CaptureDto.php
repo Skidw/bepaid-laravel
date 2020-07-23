@@ -12,14 +12,8 @@
  * file that was distributed with this source code.
  */
 
-namespace JackWalterSmith\BePaidLaravel\Facades;
+namespace JackWalterSmith\BePaidLaravel\Dtos;
 
-use Illuminate\Support\Facades\Facade;
-
-class Product extends Facade
+class CaptureDto extends VoidDto
 {
-    protected static function getFacadeAccessor(): string
-    {
-        return 'bepaid.product';
-    }
 }

@@ -63,14 +63,6 @@ class RefundTest extends TestCase
         ],
     ];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->refund = $this->app->get('bepaid.refund');
-        $this->payment = $this->app->get('bepaid.payment');
-    }
-
     public function testFill()
     {
         $refundDto = new RefundDto($this->data);
@@ -107,5 +99,13 @@ class RefundTest extends TestCase
 
         $this->assertEquals($this->data['money']['amount'], ($transaction->amount / 100));
         $this->assertEquals($this->data['reason'], $transaction->reason);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->refund = $this->app->get('bepaid.refund');
+        $this->payment = $this->app->get('bepaid.payment');
     }
 }

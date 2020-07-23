@@ -14,25 +14,26 @@
 
 namespace JackWalterSmith\BePaidLaravel;
 
-use BeGateway\Product as BePaidProduct;
+use BeGateway\CreditOperation;
 use BeGateway\ResponseBase;
+use Illuminate\Support\Str;
 use JackWalterSmith\BePaidLaravel\Contracts\IGateway;
-use JackWalterSmith\BePaidLaravel\Dtos\ProductDto;
+use JackWalterSmith\BePaidLaravel\Dtos\CreditDto;
 
-class Product extends GatewayAbstract
+class Credit extends GatewayAbstract
 {
-    /** @var \BeGateway\Product */
+    /** @var CreditOperation */
     public $operation;
 
-    public function __construct(BePaidProduct $operation)
+    public function __construct(CreditOperation $operation)
     {
         $this->operation = $operation;
     }
 
     /**
-     * @param ProductDto $data
+     * @param null|CreditDto $data
      *
-     * @return \BeGateway\ResponseApiProduct
+     * @return \BeGateway\Response
      * @throws \Exception
      */
     public function submit($data = null): ResponseBase
@@ -41,13 +42,18 @@ class Product extends GatewayAbstract
     }
 
     /**
-     * @param ProductDto                                                         $data
-     * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
+     * @param CreditDto $data
      *
-     * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
+     * @param null      $object
+     *
+     * @return IGateway
      */
     public function fill($data, $object = null): IGateway
     {
+        if ($data instanceof CreditDto && empty($data->tracking_id)) {
+            $data->tracking_id = Str::uuid();
+        }
+
         return parent::fill($data, $object);
     }
 }
