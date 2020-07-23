@@ -81,7 +81,7 @@ return [
     | Default currency
     |--------------------------------------------------------------------------
     |
-    | Indicates if payment should not be processed as real.
+    | Define the default currency that will be used in payments.
     |
     */
     'currency' => 'BYN',
@@ -96,6 +96,15 @@ return [
     |
     */
     'fallback_currency' => 'USD',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default language
+    |--------------------------------------------------------------------------
+    |
+    | Define the default language that will be used in payments.
+    |
+    */
     'lang' => 'ru',
 
     /*
