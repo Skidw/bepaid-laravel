@@ -70,7 +70,7 @@ class PaymentService
 }
 ```
 
-Below is table which illustrates which object in `BeGateway` equals to object in `BePaid Laravel`.
+Below is the table which illustrates which object in `BeGateway` equals to object in `BePaid Laravel`.
 All of these objects in `BePaid Laravel` package, that listed below, have public field `$operation`,
 which gives you access to original object.
 This is in case if package features are not enough to reach goal.
@@ -98,7 +98,7 @@ field becomes instance of `\BeGateway\QueryByUid`.
 
 ### Subscribe to events
 
-`BePaid Laravel` provides easy way preconfigured URLs that can be used in requests. Below is the list of it:
+`BePaid Laravel` provides preconfigured URLs that can be used in requests. Below is the list of it:
 
 | **Method** | **Path**              | **Name**              | **Middleware**              | **Event**                                                                 |
 |------------|-----------------------|-----------------------|-----------------------------|---------------------------------------------------------------------------|
@@ -117,7 +117,7 @@ went wrong.
 #### How to handle all this stuff?
 `BePaid Laravel` ships with abstract class `BePaidSubscriber` which you need to extend.
 
-Create and register new Event Subscriber:
+Create and register a new Event Subscriber:
 ```php
 <?php
 
@@ -156,7 +156,7 @@ namespace App\Listeners;
 use JackWalterSmith\BePaidLaravel\Contracts\BePaidSubscriber;
 use Illuminate\Http\Request;
 
-class UserEventSubscriber extends BePaidSubscriber
+class PaymentNotificationEventSubscriber extends BePaidSubscriber
 {
     public function onNotificationSuccess(Request $request)
     {
