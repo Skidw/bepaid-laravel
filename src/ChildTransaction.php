@@ -57,7 +57,7 @@ class ChildTransaction extends GatewayAbstract
             case VoidDto::class:
                 $this->operation = $this->void;
                 break;
-            case CaptureOperation::class:
+            case CaptureDto::class:
                 $this->operation = $this->capture;
                 break;
         }

@@ -275,7 +275,7 @@ class BePaidServiceProvider extends ServiceProvider
             return new ChildTransaction($capture, $void);
         });
 
-        $this->app->bind(ChildTransaction::class, 'bepaid.childTransaction');
+        $this->app->alias(ChildTransaction::class, 'bepaid.childTransaction');
     }
 
     private function registerMiddleware(): void
