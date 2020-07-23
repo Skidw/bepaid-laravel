@@ -98,7 +98,7 @@ field becomes instance of `\BeGateway\QueryByUid`.
 
 ### Subscribe to events
 
-`BePaid Laravel` provides preconfigured URLs that can be used in requests. Below is the list of it:
+`BePaid Laravel` provides preconfigured routes that can be used in requests. Below is the list of it:
 
 | **Method** | **Path**              | **Name**              | **Middleware**              | **Event**                                                                 |
 |------------|-----------------------|-----------------------|-----------------------------|---------------------------------------------------------------------------|
