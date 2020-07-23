@@ -19,6 +19,6 @@ A wrapper of https://github.com/begateway/begateway-api-php for Laravel (unoffic
 
 `composer require jack-walter-smith/bepaid-laravel`
 
-- Publish config and routes
+- Publish config
 
-`php artisan vendor:publish JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider`
+`php artisan vendor:publish --provider="JackWalterSmith\BePaidLaravel\Providers\BePaidServiceProvider"`
