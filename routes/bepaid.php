@@ -23,7 +23,7 @@ Route::group([
     Route::post($config['notifications']['path'], [
         'uses' => 'BePaidController@notification',
         'as' => $config['notifications']['name'],
-    ]);
+    ])->middleware('bepaid.inject_basic_auth');
     Route::get($config['cancel']['path'], [
         'uses' => 'BePaidController@cancel',
         'as' => $config['cancel']['name'],
@@ -32,17 +32,13 @@ Route::group([
         'uses' => 'BePaidController@decline',
         'as' => $config['decline']['name'],
     ]);
+    Route::get($config['success']['path'], [
+        'uses' => 'BePaidController@success',
+        'as' => $config['success']['name'],
+    ]);
     Route::get($config['fail']['path'], [
         'uses' => 'BePaidController@fail',
         'as' => $config['fail']['name'],
-    ]);
-    Route::get($config['success']['path'], [
-        'uses' => 'BePaidController@success',
-        'as' => $config['success']['name'],
-    ]);
-    Route::get($config['success']['path'], [
-        'uses' => 'BePaidController@success',
-        'as' => $config['success']['name'],
     ]);
     Route::get($config['return']['path'], [
         'uses' => 'BePaidController@return',

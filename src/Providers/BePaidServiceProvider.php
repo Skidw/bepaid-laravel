@@ -32,12 +32,12 @@ use JackWalterSmith\BePaidLaravel\{Authorization,
     CardToken,
     Enums\CurrencyEnum,
     Enums\LanguageEnum,
+    Http\Middleware\InjectBasicAuth,
     Payment,
     PaymentToken,
     Product,
     Query,
-    Refund
-};
+    Refund};
 
 class BePaidServiceProvider extends ServiceProvider
 {
@@ -61,6 +61,8 @@ class BePaidServiceProvider extends ServiceProvider
         $this->bindQuery();
         $this->bindRefund();
         $this->bindWebhook();
+
+        $this->registerMiddleware();
     }
 
     /**
@@ -257,5 +259,10 @@ class BePaidServiceProvider extends ServiceProvider
         $fallbackFormattedLanguage = strtolower($config['fallback_lang']);
 
         return LanguageEnum::isValid($formattedLanguage) ? new LanguageEnum($formattedLanguage) : new LanguageEnum($fallbackFormattedLanguage);
+    }
+
+    private function registerMiddleware(): void
+    {
+        $this->app['router']->aliasMiddleware('bepaid.inject_basic_auth', InjectBasicAuth::class);
     }
 }
