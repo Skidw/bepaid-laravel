@@ -19,14 +19,14 @@ use Illuminate\Http\Request;
 
 abstract class BePaidSubscriber
 {
-    const EVENT_NOTIFICATION_SUCCESS = 'bepaid.notification.success';
-    const EVENT_NOTIFICATION_FAIL = 'bepaid.notification.fail';
+    const EVENT_NOTIFICATION_SUCCESS = 'bepaid.event.notification.success';
+    const EVENT_NOTIFICATION_FAIL = 'bepaid.event.notification.fail';
 
-    const EVENT_SUCCESS_URL = 'bepaid.success';
-    const EVENT_FAIL_URL = 'bepaid.fail';
-    const EVENT_RETURN_URL = 'bepaid.return';
-    const EVENT_CANCEL_URL = 'bepaid.cancel';
-    const EVENT_DECLINE_URL = 'bepaid.decline';
+    const EVENT_SUCCESS_URL = 'bepaid.event.success';
+    const EVENT_FAIL_URL = 'bepaid.event.fail';
+    const EVENT_RETURN_URL = 'bepaid.event.return';
+    const EVENT_CANCEL_URL = 'bepaid.event.cancel';
+    const EVENT_DECLINE_URL = 'bepaid.event.decline';
 
     /**
      * This event will be fire when data received on webhook (notification url) will pass validation
