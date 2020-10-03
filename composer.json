@@ -18,7 +18,7 @@
     "php": ">=7.1",
     "laravel/framework": "^5.7|^6|^7",
     "begateway/begateway-api-php": "dev-master",
-    "myclabs/php-enum": "dev-master"
+    "myclabs/php-enum": "^1.7.6"
   },
   "require-dev": {
     "orchestra/testbench": "^3.4|^4|^5",
