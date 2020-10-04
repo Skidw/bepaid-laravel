@@ -3,5 +3,4 @@
 .env
 .phpunit.result.cache
 phpunit.xml
-composer.lock
 coverage.xml
