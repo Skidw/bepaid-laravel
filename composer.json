@@ -7,6 +7,9 @@
     "laravel",
     "payment"
   ],
+  "config": {
+    "discard-changes": true
+  },
   "repositories": [
     {
       "type": "vcs",
@@ -17,7 +20,7 @@
   "require": {
     "php": ">=7.1",
     "laravel/framework": "^5.7|^6|^7|^8",
-    "begateway/begateway-api-php": "dev-master as dev-f9fe81f",
+    "begateway/begateway-api-php": "dev-master as dev-278e911",
     "myclabs/php-enum": "dev-master"
   },
   "require-dev": {

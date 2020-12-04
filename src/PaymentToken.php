@@ -48,7 +48,7 @@ class PaymentToken extends GatewayAbstract
     public function fill($data, $object = null): IGateway
     {
         if ($data instanceof PaymentTokenDto && empty($data->tracking_id)) {
-            $data->tracking_id = Str::uuid();
+            $data->tracking_id = Str::uuid()->toString();
         }
 
         return parent::fill($data, $object);
