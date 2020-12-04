@@ -15,9 +15,23 @@ A wrapper of [BeGateway](https://github.com/begateway/begateway-api-php) for Lar
 **Laravel** >= 5.7
 
 ## Installation
-- Install package
-
-`composer require jack-walter-smith/bepaid-laravel`
+- Add to composer json
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:Jack-Walter-Smith/begateway-api-php.git",
+      "no-api": true
+    }
+  ],
+  "require": {
+    "jack-walter-smith/bepaid-laravel": "^1.0"
+  }
+}
+```
+- Run
+`composer update`
 
 - Publish config
 
