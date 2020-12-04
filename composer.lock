@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b47ad33620ce15ae1cb0f32f93a50c5",
+    "content-hash": "4a483526be55f376201accc16232aded",
     "packages": [
         {
             "name": "begateway/begateway-api-php",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:Jack-Walter-Smith/begateway-api-php.git",
-                "reference": "278e91132dd5f86fb9ac5e643388e175222daff7"
+                "reference": "3ceb96c5151aa133a1f279318ee6c370e1a9f5e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jack-Walter-Smith/begateway-api-php/zipball/278e91132dd5f86fb9ac5e643388e175222daff7",
-                "reference": "278e91132dd5f86fb9ac5e643388e175222daff7",
+                "url": "https://api.github.com/repos/Jack-Walter-Smith/begateway-api-php/zipball/3ceb96c5151aa133a1f279318ee6c370e1a9f5e7",
+                "reference": "3ceb96c5151aa133a1f279318ee6c370e1a9f5e7",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                 "bepaid",
                 "payment processing"
             ],
-            "time": "2020-12-04T17:29:47+00:00"
+            "time": "2020-12-04T19:33:24+00:00"
         },
         {
             "name": "brick/math",
@@ -6509,8 +6509,8 @@
         {
             "package": "begateway/begateway-api-php",
             "version": "9999999-dev",
-            "alias": "dev-278e911",
-            "alias_normalized": "dev-278e911"
+            "alias": "dev-3ceb96c",
+            "alias_normalized": "dev-3ceb96c"
         }
     ],
     "minimum-stability": "dev",
