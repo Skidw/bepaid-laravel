@@ -47,9 +47,10 @@ abstract class GatewayAbstract implements IGateway
     {
         if ($data) $this->fill($data);
 
-        $response = json_decode($this->operation->submit());
+        $responseBase = $this->operation->submit();
+        $response = $responseBase->getResponse();
 
-        if (isset($response->errors)) {
+        if ($responseBase->isError()) {
             if (strpos($response->message, 'transaction can\'t be refunded')) {
                 throw new TransactionException($response->message, $response->errors);
             } elseif (
@@ -64,7 +65,7 @@ abstract class GatewayAbstract implements IGateway
             }
         }
 
-        return $response;
+        return $responseBase;
     }
 
     /**
