@@ -16,7 +16,6 @@ namespace JackWalterSmith\BePaidLaravel\Http\Controllers;
 
 use BeGateway\Webhook;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use JackWalterSmith\BePaidLaravel\Contracts\BePaidSubscriber;
 
@@ -29,7 +28,7 @@ class BePaidController extends Controller
         $this->webhook = $webhook;
     }
 
-    public function notification(Request $request): array
+    public function notification(Request $request)
     {
         $event = $this->webhook->isAuthorized() ?
             BePaidSubscriber::EVENT_NOTIFICATION_SUCCESS :
@@ -38,27 +37,27 @@ class BePaidController extends Controller
         return event($event, [$request], true);
     }
 
-    public function success(Request $request): array
+    public function success(Request $request)
     {
         return event(BePaidSubscriber::EVENT_SUCCESS_URL, [$request], true);
     }
 
-    public function fail(Request $request): array
+    public function fail(Request $request)
     {
         return event(BePaidSubscriber::EVENT_FAIL_URL, [$request], true);
     }
 
-    public function decline(Request $request): array
+    public function decline(Request $request)
     {
         return event(BePaidSubscriber::EVENT_DECLINE_URL, [$request]);
     }
 
-    public function cancel(Request $request): array
+    public function cancel(Request $request)
     {
         return event(BePaidSubscriber::EVENT_CANCEL_URL, [$request]);
     }
 
-    public function return(Request $request): array
+    public function return(Request $request)
     {
         return event(BePaidSubscriber::EVENT_RETURN_URL, [$request]);
     }
