@@ -29,6 +29,8 @@ use JackWalterSmith\BePaidLaravel\Dtos\{AuthorizationDto,
     QueryByUidDto,
     RefundDto,
     VoidDto};
+use JackWalterSmith\BePaidLaravel\Exceptions\BadRequestException;
+use JackWalterSmith\BePaidLaravel\Exceptions\TransactionException;
 
 abstract class GatewayAbstract implements IGateway
 {
@@ -45,7 +47,24 @@ abstract class GatewayAbstract implements IGateway
     {
         if ($data) $this->fill($data);
 
-        return $this->operation->submit();
+        $response = json_decode($this->operation->submit());
+
+        if (isset($response->errors)) {
+            if (strpos($response->message, 'transaction can\'t be refunded')) {
+                throw new TransactionException($response->message, $response->errors);
+            } elseif (
+                strpos($response->message, 'can\'t be blank') ||
+                strpos($response->message, 'is invalid') ||
+                strpos($response->message, 'is not a number') ||
+                strpos($response->message, 'must be greater than 0')
+            ) {
+                throw new BadRequestException($response->message, $response->errors);
+            } else {
+                throw new \Exception($response->message);
+            }
+        }
+
+        return $response;
     }
 
     /**
