@@ -29,55 +29,37 @@ class BePaidController extends Controller
         $this->webhook = $webhook;
     }
 
-    public function notification(Request $request)
+    public function notification(Request $request): array
     {
         $event = $this->webhook->isAuthorized() ?
             BePaidSubscriber::EVENT_NOTIFICATION_SUCCESS :
             BePaidSubscriber::EVENT_NOTIFICATION_FAIL;
 
-        event($event, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event($event, [$request], true);
     }
 
-    public function success(Request $request)
+    public function success(Request $request): array
     {
-        event(BePaidSubscriber::EVENT_SUCCESS_URL, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event(BePaidSubscriber::EVENT_SUCCESS_URL, [$request], true);
     }
 
-    public function fail(Request $request)
+    public function fail(Request $request): array
     {
-        event(BePaidSubscriber::EVENT_FAIL_URL, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event(BePaidSubscriber::EVENT_FAIL_URL, [$request], true);
     }
 
-    public function decline(Request $request)
+    public function decline(Request $request): array
     {
-        event(BePaidSubscriber::EVENT_DECLINE_URL, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event(BePaidSubscriber::EVENT_DECLINE_URL, [$request]);
     }
 
-    public function cancel(Request $request)
+    public function cancel(Request $request): array
     {
-        event(BePaidSubscriber::EVENT_CANCEL_URL, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event(BePaidSubscriber::EVENT_CANCEL_URL, [$request]);
     }
 
-    public function return(Request $request)
+    public function return(Request $request): array
     {
-        event(BePaidSubscriber::EVENT_RETURN_URL, [$request]);
-
-        // Just return 200 OK
-        return response(null, Response::HTTP_OK);
+        return event(BePaidSubscriber::EVENT_RETURN_URL, [$request]);
     }
 }

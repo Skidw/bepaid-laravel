@@ -41,23 +41,33 @@ class Query extends GatewayAbstract
     }
 
     /**
-     * @param QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto          $data
+     * @param QueryByPaymentTokenDto|QueryByTrackingIdDto|QueryByUidDto|array    $data
      * @param null|\BeGateway\Money|\BeGateway\AdditionalData|\BeGateway\Product $object
      *
      * @return \JackWalterSmith\BePaidLaravel\Contracts\IGateway
      */
     public function fill($data, $object = null): IGateway
     {
-        switch (get_class($data)) {
-            case QueryByPaymentTokenDto::class:
+        if (is_array($data)) {
+            if (array_key_exists('token', $data)) {
                 $this->operation = $this->queryByPaymentToken;
-                break;
-            case QueryByTrackingIdDto::class:
+            } elseif (array_key_exists('tracking_id', $data)) {
                 $this->operation = $this->queryByTrackingId;
-                break;
-            case QueryByUidDto::class:
+            } elseif (array_key_exists('uid', $data)) {
                 $this->operation = $this->queryByUuid;
-                break;
+            }
+        } else {
+            switch (get_class($data)) {
+                case QueryByPaymentTokenDto::class:
+                    $this->operation = $this->queryByPaymentToken;
+                    break;
+                case QueryByTrackingIdDto::class:
+                    $this->operation = $this->queryByTrackingId;
+                    break;
+                case QueryByUidDto::class:
+                    $this->operation = $this->queryByUuid;
+                    break;
+            }
         }
 
         return parent::fill($data, $object);
