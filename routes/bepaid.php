@@ -14,34 +14,34 @@
 
 use Illuminate\Support\Facades\Route;
 
-$config = config('bepaid.urls');
+$config = config('bepaid');
 
 Route::group([
     'namespace' => 'JackWalterSmith\BePaidLaravel\Http\Controllers',
     'prefix' => 'bepaid',
 ], function () use ($config) {
-    Route::post($config['notifications']['path'], [
+    Route::post($config['urls']['notifications']['path'], [
         'uses' => 'BePaidController@notification',
-        'as' => $config['notifications']['name'],
-    ])->middleware('bepaid.inject_basic_auth');
-    Route::get($config['cancel']['path'], [
+        'as' => $config['urls']['notifications']['name'],
+    ])->middleware(array_unique(array_merge(['bepaid.inject_basic_auth'], $config['middlewares'])));
+    Route::get($config['urls']['cancel']['path'], [
         'uses' => 'BePaidController@cancel',
-        'as' => $config['cancel']['name'],
-    ]);
-    Route::get($config['decline']['path'], [
+        'as' => $config['urls']['cancel']['name'],
+    ])->middleware($config['middlewares']);
+    Route::get($config['urls']['decline']['path'], [
         'uses' => 'BePaidController@decline',
-        'as' => $config['decline']['name'],
-    ]);
-    Route::get($config['success']['path'], [
+        'as' => $config['urls']['decline']['name'],
+    ])->middleware($config['middlewares']);
+    Route::get($config['urls']['success']['path'], [
         'uses' => 'BePaidController@success',
-        'as' => $config['success']['name'],
-    ]);
-    Route::get($config['fail']['path'], [
+        'as' => $config['urls']['success']['name'],
+    ])->middleware($config['middlewares']);
+    Route::get($config['urls']['fail']['path'], [
         'uses' => 'BePaidController@fail',
-        'as' => $config['fail']['name'],
-    ]);
-    Route::get($config['return']['path'], [
+        'as' => $config['urls']['fail']['name'],
+    ])->middleware($config['middlewares']);
+    Route::get($config['urls']['return']['path'], [
         'uses' => 'BePaidController@return',
-        'as' => $config['return']['name'],
-    ]);
+        'as' => $config['urls']['return']['name'],
+    ])->middleware($config['middlewares']);
 });

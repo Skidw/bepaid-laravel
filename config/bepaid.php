@@ -202,4 +202,17 @@ return [
     |
     */
     'expired_at' => 24 * 60,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Middlewares
+    |--------------------------------------------------------------------------
+    |
+    | Apply any middlewares to act route's response as your app.
+    | This middlewares will be applied to all routes.
+    | Note: list values in this way:
+    | 'api', 'auth', ...
+    |
+    */
+    'middlewares' => [],
 ];
