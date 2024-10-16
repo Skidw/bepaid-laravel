@@ -19,7 +19,7 @@
   ],
   "require": {
     "php": ">=7.3",
-    "laravel/framework": "^5.7|^6|^7|^8",
+    "laravel/framework": "^5.7|^6|^7|^8|^9|^10|^11",
     "begateway/begateway-api-php": "dev-master as dev-3ceb96c",
     "myclabs/php-enum": "dev-master"
   },
