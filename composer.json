@@ -4,8 +4,7 @@
   "type": "library",
   "keywords": [
     "bepaid",
-    "laravel",
-    "payment"
+    "laravel"
   ],
   "config": {
     "discard-changes": true
